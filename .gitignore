@@ -1,0 +1,13 @@
+# Ignore node modules
+schoolfrontend/node_modules/
+
+# Ignore build directories
+frontend/build/
+backend/target/
+
+# Ignore IDE/editor specific files
+.idea/
+.vscode/
+
+# Ignore OS generated files
+.DS_Store
