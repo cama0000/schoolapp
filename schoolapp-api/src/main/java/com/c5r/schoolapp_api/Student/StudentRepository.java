@@ -8,4 +8,6 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
+    @Query(value = "SELECT * FROM students WHERE id = ?1", nativeQuery = true)
+    public Student findById(long id);
 }

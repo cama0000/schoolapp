@@ -3,28 +3,30 @@ package com.c5r.schoolapp_api.Controllers;
 import com.c5r.schoolapp_api.Student.Student;
 import com.c5r.schoolapp_api.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/student")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @PostMapping("/addStudent")
-    public Student addStudent(@RequestBody Student student) {
-        return studentService.saveStudent(student);
+    @PostMapping("/add")
+    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+        return ResponseEntity.ok(studentService.save(student));
     }
 
-    @DeleteMapping("/deleteStudent")
-    public void deleteStudent(@RequestBody Student student) {
-        studentService.removeStudent(student);
+    @DeleteMapping("/delete/{id}")
+    public void deleteStudent(@PathVariable("id") long id) {
+        studentService.delete(studentService.findById(id));
     }
 
-    @GetMapping("/students")
-    public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Student>> getAllStudents() {
+        return ResponseEntity.ok(studentService.findAll());
     }
 }

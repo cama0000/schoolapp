@@ -10,7 +10,8 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
-    public Student saveStudent(Student student){ return studentRepository.save(student);}
-    public void removeStudent(Student student){ studentRepository.delete(student);};
-    public List<Student> getAllStudents(){ return studentRepository.findAll();}
+    public Student save(Student student){ return studentRepository.save(student);}
+    public void delete(Student student){ studentRepository.delete(student);};
+    public List<Student> findAll(){ return studentRepository.findAll();}
+    public Student findById(long id){ return studentRepository.findById(id);}
 }

@@ -1,7 +1,9 @@
 package com.c5r.schoolapp_api.Student;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(
         name = Student.TABLE_NAME
