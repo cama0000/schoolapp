@@ -5,6 +5,15 @@ schoolfrontend/node_modules/
 frontend/build/
 backend/target/
 
+backend/HELP.md
+backend/.idea
+backend/*.iws
+backend/*.iml
+backend/*.ipr
+backend/build/
+backend/.nb-gradle/
+backend/!.mvn/wrapper/maven-wrapper.jar
+
 # Ignore IDE/editor specific files
 .idea/
 .vscode/
