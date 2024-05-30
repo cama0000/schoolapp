@@ -37,12 +37,6 @@ public class Student {
     private String lastName;
 
     @Column(
-            name = "LEVEL",
-            nullable = false
-    )
-    private String level;
-
-    @Column(
             name = "EMAIL",
             nullable = false
     )
