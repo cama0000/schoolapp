@@ -1,7 +1,9 @@
 package com.c5r.schoolapp_api.Controllers;
 
+import com.c5r.schoolapp_api.Student.Student;
 import com.c5r.schoolapp_api.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,4 +39,17 @@ public class AuthorizationController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PostMapping("register")
+    public ResponseEntity<String> register(@RequestBody Student student){
+        try{
+            studentService.save(student);
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        return new ResponseEntity<>(student.getUsername(), HttpStatus.OK);
+    }
+
 }

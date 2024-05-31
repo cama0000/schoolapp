@@ -1,6 +1,7 @@
 import { Box, Button, TextField, Typography } from '@mui/material'
 import axios from 'axios';
 import Head from 'next/head'
+import { useRouter } from 'next/router';
 import React, { useState } from 'react'
 
 const register = () => {
@@ -22,6 +23,7 @@ const register = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   const HOST_NAME = "http://localhost:8080/";
+  const router = useRouter();
 
   const handleChangeFirstName = (event) => {
     const val = event.target.value;
@@ -123,6 +125,56 @@ const register = () => {
         setConfirmPasswordError("");
     }
 };
+
+    const handleSubmit = (event) =>{
+        // validate all fields
+
+        if(firstName === '' || lastName === '' || email === '' || username === '' || password === '' || confirmPassword === ''){
+            alert("Please fill out all blank fields.");
+            return;
+        }
+
+        if(nameError !== "") {
+            alert(nameError);
+            return;
+        }
+
+        if(lastNameError !== "") {
+            alert(lastNameError);
+            return;
+        }
+
+        if(emailError !== "") {
+            alert(emailError);
+            return;
+        }
+
+        if(usernameError !== "") {
+            alert(usernameError);
+            return;
+        }
+
+        if(passwordError !== "") {
+            alert(passwordError);
+            return;
+        }
+
+        if(confirmPasswordError !== "") {
+            alert(confirmPasswordError);
+            return;
+        }
+
+        const user = { firstName, lastName, email, username, password}
+
+        axios.post(`${HOST_NAME}authorization/register`, user)
+            .then((res) =>{
+                router.push("/home")
+            })
+            .catch((res) =>{
+                console.log(res)
+            })
+
+    }
 
   return (
     <div className='items-center flex justify-center'>
@@ -227,7 +279,7 @@ const register = () => {
                     sx={{ mb: 2 }}
                 />
 
-                <Button variant='contained' sx={{ marginTop:'20px'}}>
+                <Button variant='contained' onClick={handleSubmit} sx={{ marginTop:'20px'}}>
                     Register
                 </Button>
             <br/>
