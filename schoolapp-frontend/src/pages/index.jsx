@@ -7,6 +7,12 @@ const index = () => {
   return (
     <div>
         <IndexNavBar/>
+
+        <Link href="/login" passHref>
+            <Button>
+                Login
+            </Button>
+        </Link>
         
         <Link href="/register" passHref>
             <Button>

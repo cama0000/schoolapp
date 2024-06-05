@@ -1,7 +1,12 @@
 package com.c5r.schoolapp_api.Controllers;
 
+import com.c5r.schoolapp_api.Config.AuthenticationRequest;
+import com.c5r.schoolapp_api.Config.AuthenticationResponse;
+import com.c5r.schoolapp_api.Config.AuthenticationService;
+import com.c5r.schoolapp_api.Config.RegisterRequest;
 import com.c5r.schoolapp_api.Student.Student;
 import com.c5r.schoolapp_api.Student.StudentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/authorization")
+@RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthorizationController {
+    private final AuthenticationService authenticationService;
+
     @Autowired
     StudentService studentService;
 
@@ -40,16 +48,16 @@ public class AuthorizationController {
         }
     }
 
-    @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody Student student){
-        try{
-            studentService.save(student);
-        }
-        catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-
-        return new ResponseEntity<>(student.getUsername(), HttpStatus.OK);
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+        return ResponseEntity.ok(authenticationService.register(request));
     }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+        return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+
 
 }

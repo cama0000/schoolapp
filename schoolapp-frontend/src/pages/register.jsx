@@ -3,6 +3,10 @@ import axios from 'axios';
 import Head from 'next/head'
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
+import { toast } from 'react-toastify';
+import {HOST_NAME} from '@/app/other/constants'
+
+//TODO: add password validation, password checker colors, remove scrollbar
 
 const register = () => {
   const [firstName, setFirstName] = useState("");
@@ -22,7 +26,6 @@ const register = () => {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  const HOST_NAME = "http://localhost:8080/";
   const router = useRouter();
 
   const handleChangeFirstName = (event) => {
@@ -127,6 +130,7 @@ const register = () => {
 };
 
     const handleSubmit = (event) =>{
+        event.preventDefault()
         // validate all fields
 
         if(firstName === '' || lastName === '' || email === '' || username === '' || password === '' || confirmPassword === ''){
@@ -168,9 +172,14 @@ const register = () => {
 
         axios.post(`${HOST_NAME}authorization/register`, user)
             .then((res) =>{
-                router.push("/home")
+                toast.success("Registration successful! Welcome to StudyWithMe.");
+
+                setTimeout(() => { // Delay for showing the message before redirection
+                    router.push("/home");
+                }, 500);
             })
             .catch((res) =>{
+                toast.error("Registration unsuccessful. Please try again later.");
                 console.log(res)
             })
 
