@@ -1,3 +1,4 @@
+import ProtectedRoutes from '@/components/ProtectedRoutes'
 import React from 'react'
 
 const home = () => {
@@ -6,4 +7,4 @@ const home = () => {
   )
 }
 
-export default home
+export default ProtectedRoutes(home)
