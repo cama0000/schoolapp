@@ -66,10 +66,15 @@ public class AuthenticationService {
         var student = studentRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Student not found"));
 
+        System.out.println("STUDENT NAME: "  + student.getFirstName() + " " + student.getLastName());
+
         // return token
         var jwtToken = jwtService.generateToken(student);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }
+
+
+
 }

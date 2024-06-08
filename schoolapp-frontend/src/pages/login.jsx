@@ -1,13 +1,29 @@
+import { useAuth } from '@/context/AuthContext';
 import { Box, Button, TextField, Typography } from '@mui/material'
 import Head from 'next/head'
-import React, { useState } from 'react'
-import {HOST_NAME} from '@/app/other/constants'
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify';
 
 const login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const HOST_NAME = "http://localhost:8080/";
+
+  const { login, student } = useAuth();
+  const router = useRouter();
+
+  useEffect(()=>{
+    console.log("STUDENT: " + student)
+    if(student){
+        router.push("/home");
+    }
+  })
 
   const handleChangeUsername = (event) => {
     const val = event.target.value;
@@ -31,31 +47,42 @@ const login = () => {
   const handleSubmit = (event) =>{
     event.preventDefault()
 
-    const user = {username, password}
+    const usernamePassword = {username, password}
 
-    axios.get(`${HOST_NAME}authorization/login`, user)
-        .then((res) =>{
-                if(res.status === 200) {
-                    setIsError(false);
+    login(usernamePassword)
+        .then(res => {
+            toast.success("Login successful!");
+            
+            router.push("/home")
+        }).catch(err => {
+            
+            setIsError(true);
+            throw new Error("Login failed")
+        }).finally(() => {
+            setLoading(false);
+        })
 
-                    setTimeout(() => { // Delay for showing the message before redirection
-                        router.push("/home");
-                    }, 500);
-                }
-                else{
-                    throw new Error('Login failed');
-                }
-            })
-            // catches the bad response (error)
-            .catch((err) => {
-                console.error(err);
-                setIsError(true);
-                setSnackbarMessage('Incorrect username or password!');
-                setSnackbarOpen(true);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+
+    // axios.post(`${HOST_NAME}authorization/authenticate`, user)
+    //     .then((res) =>{
+    //             if(res.status === 200) {
+    //                 setIsError(false);
+
+    //                 setTimeout(() => { // Delay for showing the message before redirection
+    //                     router.push("/home");
+    //                 }, 500);
+    //             }
+    //             else{
+    //                 throw new Error('Login failed');
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.error(err);
+    //             setIsError(true);
+    //         })
+    //         .finally(() => {
+    //             setLoading(false);
+    //         });
   }
 
   return (

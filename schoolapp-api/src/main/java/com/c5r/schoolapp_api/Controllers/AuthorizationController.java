@@ -8,6 +8,7 @@ import com.c5r.schoolapp_api.Student.Student;
 import com.c5r.schoolapp_api.Student.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,27 @@ public class AuthorizationController {
 
     @Autowired
     StudentService studentService;
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+        return ResponseEntity.ok(authenticationService.register(request));
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+        AuthenticationResponse response = authenticationService.authenticate(request);
+
+        System.out.println("RESPONSE: " + response);
+        System.out.println("TOKEN: " + response.getToken());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, response.getToken())
+                .body(response);
+
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.AUTHORIZATION, "Bearer " + response.getToken()) // Ensure "Bearer " prefix
+//                .body(response);
+    }
 
     @RequestMapping(
             value = "/check-username/{username}",
@@ -47,17 +69,5 @@ public class AuthorizationController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-    @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(authenticationService.register(request));
-    }
-
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-        return ResponseEntity.ok(authenticationService.authenticate(request));
-    }
-
-
 
 }
