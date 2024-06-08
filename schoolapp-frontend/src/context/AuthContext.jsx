@@ -14,52 +14,38 @@ const AuthProvider = ({children}) => {
     const [student, setStudent] = useState();
 
     const setStudentFromToken = () =>{
-        console.log("SETSTUDENTTOKEN")
         let token = localStorage.getItem("access_token");
 
-        console.log("TOKEN: " + token);
-
         if(token){
-            console.log("TOKEN EXISTS")
             token = jwtDecode(token);
             setStudent({
                 username: token.sub,
                 roles: token.scopes
             })
         }
+
     }
 
     useEffect(() =>{
-        console.log("USE UEFFECT")
         setStudentFromToken()
     }, [])
 
     const login = async (usernamePassword) => {
-        console.log("LOGIN")
-
         return new Promise((resolve, reject) => {
 
             performLogin(usernamePassword)
                 .then(res => {
-                    console.log("RES HEADERS: " + res.headers)
                     const jwtToken = res.headers["authorization"];
-
-                    console.log("BEFORE DECODE TOKEN: " + jwtToken)
 
                     localStorage.setItem("access_token", jwtToken);
 
-                    
-
                     const decodedToken = jwtDecode(jwtToken);
-
-                    console.log("AFTER DECODE")
 
                     setStudent({
                         username: decodedToken.sub,
                         roles: decodedToken.scopes
                     })
 
-                    
                     resolve(res);
                 }).catch(err => {
                     reject(err);

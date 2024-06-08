@@ -51,11 +51,15 @@ const login = () => {
 
     login(usernamePassword)
         .then(res => {
-            toast.success("Login successful!");
+            // setTimeout(() => {
+            //     toast.success("Login successful!");
+                
+            //     router.push("/home");
+            // }, 500);
             
             router.push("/home")
         }).catch(err => {
-            
+
             setIsError(true);
             throw new Error("Login failed")
         }).finally(() => {

@@ -190,8 +190,7 @@ const register = () => {
                 // }, 500);
 
                 // get token and set it
-                
-                onSuccess(res.headers["authorization"]);
+
                 const token = res.data.token;
                 localStorage.setItem('access_token', token)
                 setStudentFromToken();

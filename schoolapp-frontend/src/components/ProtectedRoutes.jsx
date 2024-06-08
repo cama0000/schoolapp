@@ -13,9 +13,10 @@ const ProtectedRoutes = (WrappedComponent) => {
                 router.push("/login");
             }
             else{
+                console.log("UHHHHHHH")
                 setLoading(false);
             }
-        })
+        }, [isStudentAuthenticated])
 
         if(loading){
             return <div>LOADING</div>
