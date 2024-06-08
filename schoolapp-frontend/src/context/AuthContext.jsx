@@ -67,7 +67,7 @@ const AuthProvider = ({children}) => {
         })
     }
 
-    const logOut = () => {
+    const logout = () => {
         localStorage.removeItem("access_token")
         setStudent(null);
     }
@@ -83,7 +83,7 @@ const AuthProvider = ({children}) => {
         const {exp: expiration} = jwtDecode(token);
 
         if(Date.now() > expiration * 1000){
-            logOut();
+            logout();
             return false;
         }
 
@@ -94,7 +94,7 @@ const AuthProvider = ({children}) => {
         <AuthContext.Provider value={{
             student,
             login,
-            logOut,
+            logout,
             isStudentAuthenticated,
             setStudentFromToken
         }}>
