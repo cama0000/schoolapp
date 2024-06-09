@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { sideBarLinks } from '@/constants';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@mui/material';
+import { toast } from 'react-toastify';
 
 const SideBar = () => {
     const [profileDropdown, setProfileDropwdown] = useState(false);
@@ -33,7 +34,10 @@ const SideBar = () => {
                     </li>
                 ))}
 
-                <Button onClick={logout}>
+                <Button onClick={() => {
+                    toast.success("Logout Successful!");
+                    logout()
+                }}>
                     Logout
                 </Button>
             </ul>

@@ -182,14 +182,7 @@ const register = () => {
 
         axios.post(`${HOST_NAME}authorization/register`, user)
             .then((res) =>{
-                toast.success("Registration successful! Welcome to StudyWithMe.");
-
-                // maybe causes redirect back to register issue?
-                // setTimeout(() => { // Delay for showing the message before redirection
-                //     router.push("/home");
-                // }, 500);
-
-                // get token and set it
+                toast.success("Registration successful!");
 
                 const token = res.data.token;
                 localStorage.setItem('access_token', token)
@@ -198,7 +191,7 @@ const register = () => {
                 router.push("/home");
             })
             .catch((res) =>{
-                toast.error("Registration unsuccessful. Please try again later.");
+                toast.error("Registration unsuccessful.");
                 console.log(res)
             })
 

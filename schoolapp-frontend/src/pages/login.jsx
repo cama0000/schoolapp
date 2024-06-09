@@ -51,42 +51,22 @@ const login = () => {
 
     login(usernamePassword)
         .then(res => {
-            // setTimeout(() => {
-            //     toast.success("Login successful!");
-                
-            //     router.push("/home");
-            // }, 500);
-            
-            router.push("/home")
-        }).catch(err => {
+            setIsError(false);
 
+            setTimeout(() => {
+                toast.success("Login successful!");
+                
+                router.push("/home");
+            }, 500);
+
+        }).catch(err => {
+            console.log("Login Error: " + err)
             setIsError(true);
-            throw new Error("Login failed")
+            toast.error("Invalid username and/or password.");
+            // throw new Error("Login failed")
         }).finally(() => {
             setLoading(false);
         })
-
-
-    // axios.post(`${HOST_NAME}authorization/authenticate`, user)
-    //     .then((res) =>{
-    //             if(res.status === 200) {
-    //                 setIsError(false);
-
-    //                 setTimeout(() => { // Delay for showing the message before redirection
-    //                     router.push("/home");
-    //                 }, 500);
-    //             }
-    //             else{
-    //                 throw new Error('Login failed');
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.error(err);
-    //             setIsError(true);
-    //         })
-    //         .finally(() => {
-    //             setLoading(false);
-    //         });
   }
 
   return (
