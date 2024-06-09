@@ -7,10 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
     @Autowired
     private StudentService studentService;
@@ -28,5 +29,12 @@ public class StudentController {
     @GetMapping("/findAll")
     public ResponseEntity<List<Student>> getAllStudents() {
         return ResponseEntity.ok(studentService.findAll());
+    }
+
+    @GetMapping("/getStudentFromUsername/{username}")
+    public ResponseEntity<Student> getStudentFromUsername(@PathVariable("username") String username) {
+        Optional<Student> student = studentService.findByUsername(username);
+
+        return student.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

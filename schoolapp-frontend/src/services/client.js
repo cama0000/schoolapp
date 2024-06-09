@@ -18,3 +18,13 @@ export const login = async (usernamePassword) => {
         throw err;
     }
 }
+
+export const getStudentFromUsername = async (username) => {
+    try {
+        const response = await axios.get(`${HOST_NAME}student/getStudentFromUsername/${username}`)
+        return response.data;
+    } catch (err) {
+        console.log("GETSTUDENT CLIENT ERROR: " + err);
+        throw err;
+    }
+};

@@ -1,21 +1,26 @@
-import ProtectedRoutes from '@/components/ProtectedRoutes'
+import ProtectedRoutes from '@/components/ProtectedRoutes';
 import SideBar from '@/components/SideBar';
 import { useAuth } from '@/context/AuthContext';
-import { Button } from '@mui/material'
-import React from 'react'
+import React from 'react';
 
-const home = () => {
+const Home = () => {
   const { student, logout } = useAuth();
 
   return (
-    <div>
-      <SideBar/>
+    <div className="flex h-screen">
+      <SideBar />
 
-      <div className="ml-4">
-        Welcome, { student.username }.
+      <div className="flex-1 flex flex-col items-center mt-12">
+        <span className="text-6xl font-bold">
+          Welcome, {student?.firstName}.
+        </span>
+
+        <span className="text-xl mt-8">
+          Here are your upcoming deadlines.
+        </span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProtectedRoutes(home)
+export default ProtectedRoutes(Home);
