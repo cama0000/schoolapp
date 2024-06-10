@@ -9,9 +9,4 @@ export const sideBarLinks = [
         href: "/courses",
         label: "Courses",
       },
-    {
-      imgURL: "/assets/images/settings.png",
-        href: "/settings",
-      label: "Settings",
-    },
   ];

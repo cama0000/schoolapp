@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <div className="flex h-screen">
-      <SideBar />
+      {/* <SideBar /> */}
 
       <div className="flex-1 flex flex-col items-center mt-12">
         <span className="text-6xl font-bold">
