@@ -2,6 +2,7 @@ import axios from "axios";
 
 const HOST_NAME = "http://localhost:8080/";
 
+// include for all authorized endpoint calls
 const getAuthConfig = () => ({
     headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`
@@ -25,6 +26,18 @@ export const getStudentFromUsername = async (username) => {
         return response.data;
     } catch (err) {
         console.log("GETSTUDENT CLIENT ERROR: " + err);
+        throw err;
+    }
+};
+
+export const getStudentCourses = async (id) => {
+    try {
+        const response = await axios.get(`${HOST_NAME}student/getStudentCourses/${id}`,
+            getAuthConfig());
+            
+        return response.data;
+    } catch (err) {
+        console.log("GETCOURSES CLIENT ERROR: " + err);
         throw err;
     }
 };

@@ -7,18 +7,14 @@ const Home = () => {
   const { student, logout } = useAuth();
 
   return (
-    <div className="flex h-screen">
-      {/* <SideBar /> */}
+    <div className="flex-1 flex flex-col items-center mt-12">
+      <span className="text-6xl font-bold">
+        Welcome, {student?.firstName}.
+      </span>
 
-      <div className="flex-1 flex flex-col items-center mt-12">
-        <span className="text-6xl font-bold">
-          Welcome, {student?.firstName}.
-        </span>
-
-        <span className="text-xl mt-8">
-          Here are your upcoming deadlines.
-        </span>
-      </div>
+      <span className="text-xl mt-8">
+        Here are your upcoming deadlines.
+      </span>
     </div>
   );
 };

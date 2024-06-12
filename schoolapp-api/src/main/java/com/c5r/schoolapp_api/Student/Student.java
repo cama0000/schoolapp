@@ -1,5 +1,6 @@
 package com.c5r.schoolapp_api.Student;
 
+import com.c5r.schoolapp_api.Course.Course;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -65,6 +67,16 @@ public class Student implements UserDetails {
             unique = true
     )
     private String profileImageUrl;
+
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "students_courses",
+//            joinColumns = @JoinColumn(name = "username"),
+//            inverseJoinColumns = @JoinColumn(name = "course_id"))
+//    Set<Course> courses;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Course> courses;
 
     @Enumerated(EnumType.STRING)
     private Role role;

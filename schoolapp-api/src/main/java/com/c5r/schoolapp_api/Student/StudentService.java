@@ -17,4 +17,5 @@ public class StudentService {
     public Student findById(long id){ return studentRepository.findById(id);}
     public Optional<Student> findByUsername(String username){ return studentRepository.findByUsername(username);}
     public Optional<Student> findByEmail(String email){ return studentRepository.findByEmail(email);}
+
 }
