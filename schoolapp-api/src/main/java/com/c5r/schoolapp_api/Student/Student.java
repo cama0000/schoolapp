@@ -75,8 +75,8 @@ public class Student implements UserDetails {
 //            inverseJoinColumns = @JoinColumn(name = "course_id"))
 //    Set<Course> courses;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Course> courses;
+//    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<Course> courses;
 
     @Enumerated(EnumType.STRING)
     private Role role;

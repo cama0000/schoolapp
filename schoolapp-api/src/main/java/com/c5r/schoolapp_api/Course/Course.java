@@ -45,7 +45,13 @@ public class Course {
 //            inverseJoinColumns = @JoinColumn(name = "username"))
 //    private Set<Student> students;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    private Student student;
+//    @ManyToOne
+//    @JoinColumn(name = "student_id", nullable = false)
+//    private Student student;
+
+    @Column(
+            name = "STUDENT_ID",
+            nullable = false
+    )
+    private Integer studentId;
 }

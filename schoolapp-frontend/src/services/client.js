@@ -30,6 +30,19 @@ export const getStudentFromUsername = async (username) => {
     }
 };
 
+export const addCourse = async (course) => {
+    try {
+        console.log("COURSE: " + course);
+        const response = await axios.post(`${HOST_NAME}course/add`, course,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("ADDCOURSE CLIENT ERROR: " + err);
+        throw err;
+    }
+};
+
 export const getStudentCourses = async (id) => {
     try {
         const response = await axios.get(`${HOST_NAME}student/getStudentCourses/${id}`,

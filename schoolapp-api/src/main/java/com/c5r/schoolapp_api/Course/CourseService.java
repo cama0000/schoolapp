@@ -1,5 +1,6 @@
 package com.c5r.schoolapp_api.Course;
 
+import com.c5r.schoolapp_api.Student.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -16,4 +17,5 @@ public class CourseService {
         return courseRepository.findStudentCoursesByStudentId(id);
     }
 
+    public Course save(Course course){ return courseRepository.save(course);}
 }
