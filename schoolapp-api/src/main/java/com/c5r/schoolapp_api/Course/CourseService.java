@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -18,4 +19,8 @@ public class CourseService {
     }
 
     public Course save(Course course){ return courseRepository.save(course);}
+
+    public Optional<Course> findById(Long id){return courseRepository.findById(id);}
+
+    public void delete(Course course){ courseRepository.delete(course);};
 }

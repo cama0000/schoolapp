@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
-import { addCourse, getStudentCourses } from '@/services/client';
+import { addCourse, deleteCourse, getStudentCourses } from '@/services/client';
 import { useAuth } from '@/context/AuthContext';
 import ProtectedRoutes from '@/components/ProtectedRoutes';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { toast } from 'react-toastify';
+import Link from 'next/link';
 
 const Courses = () => {
   const { student } = useAuth();
@@ -14,6 +17,7 @@ const Courses = () => {
   const [isOpen, setOpen] = useState(false);
   const [courseName, setCourseName] = useState(null);
   const [subject, setSubject] = useState(null);
+  const [hoveredCourseId, setHoveredCourseId] = useState(null);
 
   useEffect(() =>{
     if(student?.id){
@@ -50,12 +54,29 @@ const Courses = () => {
     setOpen(true);
   };
 
+  const handleMouseEnter = (courseId) => {
+    setHoveredCourseId(courseId);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredCourseId(null);
+  };
+
   const handleSubmit = async (event) =>{
     event.preventDefault();
     const course = { courseName, subject, studentId: student?.id }
     await addCourse(course);
     fetchCourses();
     handleClose();
+
+    toast.success("Course added successfully!");
+  }
+
+  const handleDeleteCourse = async (courseId) =>{
+    event.preventDefault();
+    await deleteCourse(courseId);
+    fetchCourses();
+    toast.success("Course removed successfully!");
   }
 
   return (
@@ -74,6 +95,7 @@ const Courses = () => {
             <div key={rowIndex} className="course-row flex justify-center">
               {courseRow.map((course) => (
                 <div key={course.id} className="course-item mx-4">
+                  <Link href={`/courses/${encodeURIComponent(course.courseName)}`} passHref>
                   <Box
                     key={course.id}
                     className="course-item mx-4 mt-7"
@@ -86,8 +108,12 @@ const Courses = () => {
                     display="flex"
                     flexDirection="column"
                     position="relative"
+                    onMouseEnter={() => handleMouseEnter(course.id)}
+                    onMouseLeave={handleMouseLeave}
                   >
-                    <DeleteIcon
+                    
+                  {hoveredCourseId === course.id && (
+                    <DeleteOutlineIcon
                       style={{
                         color: 'red',
                         position: 'absolute',
@@ -95,10 +121,15 @@ const Courses = () => {
                         right: '10px',
                         cursor: 'pointer',
                       }}
+
+                      onClick={() => handleDeleteCourse(course.id)}
                     />
+                    
+                    )}
                     <div>{course.courseName}</div>
                     <div className='italic'>{course.subject}</div>
                   </Box>
+                  </Link>
                 </div>
               ))}
             </div>
