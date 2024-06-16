@@ -2,6 +2,7 @@ package com.c5r.schoolapp_api.Controllers;
 
 import com.c5r.schoolapp_api.Course.Course;
 import com.c5r.schoolapp_api.Course.CourseService;
+import com.c5r.schoolapp_api.Student.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +31,12 @@ public class CourseController {
         else{
             ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/getCourse/{id}")
+    public ResponseEntity<Course> getCourse(@PathVariable("id") Long id) {
+        Optional<Course> course = courseService.findById(id);
+
+        return course.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

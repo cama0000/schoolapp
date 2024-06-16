@@ -54,14 +54,26 @@ export const deleteCourse = async (courseId) => {
     }
 };
 
-export const getStudentCourses = async (id) => {
+export const getStudentCourses = async (studentId) => {
     try {
-        const response = await axios.get(`${HOST_NAME}student/getStudentCourses/${id}`,
+        const response = await axios.get(`${HOST_NAME}student/getStudentCourses/${studentId}`,
             getAuthConfig());
             
         return response.data;
     } catch (err) {
         console.log("GETCOURSES CLIENT ERROR: " + err);
+        throw err;
+    }
+};
+
+export const getCourse = async (courseId) => {
+    try {
+        const response = await axios.get(`${HOST_NAME}course/getCourse/${courseId}`,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("GETCOURSE CLIENT ERROR: " + err);
         throw err;
     }
 };

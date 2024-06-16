@@ -95,7 +95,7 @@ const Courses = () => {
             <div key={rowIndex} className="course-row flex justify-center">
               {courseRow.map((course) => (
                 <div key={course.id} className="course-item mx-4">
-                  <Link href={`/courses/${encodeURIComponent(course.courseName)}`} passHref>
+                  <Link href={`/courses/${encodeURIComponent(course.id)}`} passHref>
                   <Box
                     key={course.id}
                     className="course-item mx-4 mt-7"
