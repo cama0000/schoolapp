@@ -13,4 +13,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query(value = "SELECT * FROM tasks t WHERE t.course_id = ?1", nativeQuery = true)
     public Set<Task> findTasksByCourseId(Long id);
 
+    @Query(value = "SELECT * FROM tasks t WHERE t.student_id = ?1", nativeQuery = true)
+    public Set<Task> findTasksByStudentId(Long id);
+
 }

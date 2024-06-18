@@ -4,6 +4,8 @@ import com.c5r.schoolapp_api.Course.Course;
 import com.c5r.schoolapp_api.Course.CourseRepository;
 import com.c5r.schoolapp_api.Student.Student;
 import com.c5r.schoolapp_api.Student.StudentService;
+import com.c5r.schoolapp_api.Task.Task;
+import com.c5r.schoolapp_api.Task.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,8 @@ public class StudentController {
     private StudentService studentService;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
     @PostMapping("/add")
     public ResponseEntity<Student> addStudent(@RequestBody Student student) {
@@ -46,5 +50,10 @@ public class StudentController {
     @GetMapping("/getStudentCourses/{id}")
     public ResponseEntity<Set<Course>> getStudentCourses(@PathVariable("id") long id) {
         return ResponseEntity.ok(courseRepository.findStudentCoursesByStudentId(id));
+    }
+
+    @GetMapping("/getStudentTasks/{id}")
+    public ResponseEntity<Set<Task>> getStudentTasks(@PathVariable("id") long id) {
+        return ResponseEntity.ok(taskRepository.findTasksByStudentId(id));
     }
 }

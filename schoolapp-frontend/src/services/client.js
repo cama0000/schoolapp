@@ -78,6 +78,18 @@ export const getCourse = async (courseId) => {
     }
 };
 
+export const addTask = async (task) => {
+    try {
+        const response = await axios.post(`${HOST_NAME}task/add`, task,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("ADDTASK CLIENT ERROR: " + err);
+        throw err;
+    }
+};
+
 export const getTasksByCourse = async (courseId) => {
     try {
         const response = await axios.get(`${HOST_NAME}course/getTasksByCourse/${courseId}`,
@@ -90,14 +102,14 @@ export const getTasksByCourse = async (courseId) => {
     }
 };
 
-export const addTask = async (task) => {
+export const getTasksByStudent = async (studentId) => {
     try {
-        const response = await axios.post(`${HOST_NAME}task/add`, task,
+        const response = await axios.get(`${HOST_NAME}student/getStudentTasks/${studentId}`,
             getAuthConfig());
-
+            
         return response.data;
     } catch (err) {
-        console.log("ADDTASK CLIENT ERROR: " + err);
+        console.log("GETTASKSSTUDENT CLIENT ERROR: " + err);
         throw err;
     }
 };
