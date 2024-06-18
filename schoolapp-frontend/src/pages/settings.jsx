@@ -1,3 +1,4 @@
+import ProtectedRoutes from '@/components/ProtectedRoutes';
 import React from 'react'
 
 const settings = () => {
@@ -6,4 +7,4 @@ const settings = () => {
   )
 }
 
-export default settings
+export default ProtectedRoutes(settings);
