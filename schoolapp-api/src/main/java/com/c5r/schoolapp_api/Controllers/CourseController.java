@@ -3,11 +3,14 @@ package com.c5r.schoolapp_api.Controllers;
 import com.c5r.schoolapp_api.Course.Course;
 import com.c5r.schoolapp_api.Course.CourseService;
 import com.c5r.schoolapp_api.Student.Student;
+import com.c5r.schoolapp_api.Task.Task;
+import com.c5r.schoolapp_api.Task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/course")
@@ -15,6 +18,9 @@ import java.util.Optional;
 public class CourseController {
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private TaskService taskService;
 
     @PostMapping("/add")
     public ResponseEntity<Course> addCourse(@RequestBody Course course) {
@@ -38,5 +44,10 @@ public class CourseController {
         Optional<Course> course = courseService.findById(id);
 
         return course.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/getTasksByCourse/{id}")
+    public ResponseEntity<Set<Task>> getTasksByCourse(@PathVariable("id") long id) {
+        return ResponseEntity.ok(taskService.findTasksByCourseId(id));
     }
 }

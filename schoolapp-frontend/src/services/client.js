@@ -77,3 +77,27 @@ export const getCourse = async (courseId) => {
         throw err;
     }
 };
+
+export const getTasksByCourse = async (courseId) => {
+    try {
+        const response = await axios.get(`${HOST_NAME}course/getTasksByCourse/${courseId}`,
+            getAuthConfig());
+            
+        return response.data;
+    } catch (err) {
+        console.log("GETTASKS CLIENT ERROR: " + err);
+        throw err;
+    }
+};
+
+export const addTask = async (task) => {
+    try {
+        const response = await axios.post(`${HOST_NAME}task/add`, task,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("ADDTASK CLIENT ERROR: " + err);
+        throw err;
+    }
+};

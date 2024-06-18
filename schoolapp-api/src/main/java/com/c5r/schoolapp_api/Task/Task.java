@@ -32,6 +32,9 @@ public class Task {
     )
     private String taskName;
 
+    @Column(name = "DESCRIPTION")
+    private String description;
+
     @Column(name = "DEADLINE")
     private LocalDateTime deadline;
 
