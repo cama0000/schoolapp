@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -53,7 +54,15 @@ public class StudentController {
     }
 
     @GetMapping("/getStudentTasks/{id}")
-    public ResponseEntity<Set<Task>> getStudentTasks(@PathVariable("id") long id) {
-        return ResponseEntity.ok(taskRepository.findTasksByStudentId(id));
+    public ResponseEntity<Set<Task>> getStudentTasks(@PathVariable("id") long id, @RequestHeader("timezone") String timeZone) {
+        Set<Task> tasks = taskRepository.findTasksByStudentId(id);
+
+        ZoneId timeZoneId = ZoneId.of(timeZone);
+        tasks.forEach(task -> {
+            if(task.getDeadline() != null){
+                task.setDeadline(task.getDeadline().atZone(ZoneId.of("UTC")).withZoneSameInstant(timeZoneId).toLocalDateTime());
+            }
+        });
+        return ResponseEntity.ok(tasks);
     }
 }

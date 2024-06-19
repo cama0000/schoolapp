@@ -55,7 +55,9 @@ public class CourseController {
 
         ZoneId timeZoneId = ZoneId.of(timeZone);
         tasks.forEach(task -> {
-            task.setDeadline(task.getDeadline().atZone(ZoneId.of("UTC")).withZoneSameInstant(timeZoneId).toLocalDateTime());
+            if(task.getDeadline() != null){
+                task.setDeadline(task.getDeadline().atZone(ZoneId.of("UTC")).withZoneSameInstant(timeZoneId).toLocalDateTime());
+            }
         });
 
         return ResponseEntity.ok(tasks);
