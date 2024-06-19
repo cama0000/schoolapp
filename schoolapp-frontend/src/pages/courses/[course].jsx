@@ -1,7 +1,7 @@
 import ProtectedRoutes from '@/components/ProtectedRoutes';
 import { useAuth } from '@/context/AuthContext';
 import { addTask, getCourse, getTasksByCourse } from '@/services/client';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -9,6 +9,7 @@ import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const CoursePage = () => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const CoursePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deadline, setDeadline] = useState(null);
+  const [hoveredTaskId, setHoveredTaskId] = useState(null);
 
   useEffect(() => {
     if (course) {
@@ -80,6 +82,14 @@ const CoursePage = () => {
     toast.success("Task added successfully!");
   }
 
+  const handleMouseEnter = (taskId) => {
+    setHoveredTaskId(taskId);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredTaskId(null);
+  };
+
   if (!selectedCourse) return <div>Loading...</div>;
 
   return (
@@ -96,20 +106,58 @@ const CoursePage = () => {
         <AddBoxIcon onClick={handleOpen}/>
       </Button>
 
+      <div className='tasks-container p-4 m-2 mb-10 border rounded'>
       {tasks?.length > 0 ? (
-          tasks.map((task) => (
-            <div key={task.id} className="task-item p-4 m-2 border rounded">
-              <h3 className="task-title font-bold">{task.taskName}</h3>
-              <p className="task-description">{task.description}</p>
-              { task.deadline ? (
-                <br/>,
-                <p className="task-due-date">Due: {dayjs(task.deadline).format('MMMM DD, YYYY h:mm A')}</p>
-              ) : (null)}
-            </div>
-          ))
-        ) : (
-          <p>No tasks available for this course.</p>
-        )}
+        tasks.map((task) => (
+          <div key={task.id} className="task-item">
+            <Box
+              key={task.id}
+              className="task-item mx-4 mt-7"
+              p={3}
+              boxShadow={3}
+              borderRadius={4}
+              bgcolor="background.paper"
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              width={1000}
+              minHeight={80}
+              onMouseEnter={() => handleMouseEnter(task.id)}
+              onMouseLeave={handleMouseLeave}
+              position="relative"
+            >
+
+            {hoveredTaskId === task.id && (
+                    <DeleteOutlineIcon
+                      style={{
+                        color: 'red',
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                        cursor: 'pointer',
+                      }}
+
+                      // onClick={() => handleDeleteCourse(course.id)}
+                    />
+              )}
+
+              <div className="task-details">
+                <h3 className="task-title font-bold">{task.taskName}</h3>
+                <p className="task-description">{task.description}</p>
+              </div>
+              {task.deadline && (
+                <p className="task-due-date">
+                  {dayjs(task.deadline).format('MMMM DD, YYYY h:mm A')}
+                </p>
+              )}
+            </Box>
+
+          </div>
+        ))
+      ) : (
+        <p>No tasks!</p>
+      )}
+      </div>
 
 
 
@@ -117,7 +165,7 @@ const CoursePage = () => {
 
 
 
-
+      {/* CREATE TASK */}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Dialog
         open={isOpen}
