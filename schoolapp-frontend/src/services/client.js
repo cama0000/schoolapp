@@ -138,3 +138,15 @@ export const getTasksByStudent = async (studentId) => {
         throw err;
     }
 };
+
+export const deleteTask = async (taskId) => {
+    try {
+        const response = await axios.delete(`${HOST_NAME}task/delete/${taskId}`,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("DELETETASK CLIENT ERROR: " + err);
+        throw err;
+    }
+};

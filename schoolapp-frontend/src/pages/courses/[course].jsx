@@ -1,6 +1,6 @@
 import ProtectedRoutes from '@/components/ProtectedRoutes';
 import { useAuth } from '@/context/AuthContext';
-import { addTask, getCourse, getTasksByCourse } from '@/services/client';
+import { addTask, deleteTask, getCourse, getTasksByCourse } from '@/services/client';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -90,6 +90,13 @@ const CoursePage = () => {
     setHoveredTaskId(null);
   };
 
+  const handleDeleteTask = async (taskId) =>{
+    event.preventDefault();
+    await deleteTask(taskId);
+    fetchTasks();
+    toast.success("Task removed successfully!");
+  }
+
   if (!selectedCourse) return <div>Loading...</div>;
 
   return (
@@ -112,7 +119,7 @@ const CoursePage = () => {
           <div key={task.id} className="task-item">
             <Box
               key={task.id}
-              className="task-item mx-4 mt-7"
+              className="task-item mx-4 mt-7 mb-7"
               p={3}
               boxShadow={3}
               borderRadius={4}
@@ -137,7 +144,7 @@ const CoursePage = () => {
                         cursor: 'pointer',
                       }}
 
-                      // onClick={() => handleDeleteCourse(course.id)}
+                      onClick={() => handleDeleteTask(task.id)}
                     />
               )}
 
