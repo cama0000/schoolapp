@@ -9,6 +9,19 @@ const getAuthConfig = () => ({
     }
 })
 
+// const getAuthAndTimeZoneConfig = async () => {
+//     const options = await Intl.DateTimeFormat().resolvedOptions();
+//     const timezone = options.timeZone;
+  
+//     return {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+//         'timezone': timezone
+//       }
+//     };
+//   };
+  
+
 export const login = async (usernamePassword) => {
     try{
         return await axios.post(
@@ -92,8 +105,14 @@ export const addTask = async (task) => {
 
 export const getTasksByCourse = async (courseId) => {
     try {
+        const options = await Intl.DateTimeFormat().resolvedOptions();
+        const timezone = options.timeZone;
+
         const response = await axios.get(`${HOST_NAME}course/getTasksByCourse/${courseId}`,
-            getAuthConfig());
+            {headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                'timezone': timezone
+            }});
             
         return response.data;
     } catch (err) {

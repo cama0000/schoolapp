@@ -187,3 +187,4 @@ const CoursePage = () => {
 };
 
 export default ProtectedRoutes(CoursePage);
+
