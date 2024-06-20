@@ -122,7 +122,9 @@ const Courses = () => {
                         cursor: 'pointer',
                       }}
 
-                      onClick={() => handleDeleteCourse(course.id)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeleteCourse(course.id)}}
                     />
                     
                     )}
