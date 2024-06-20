@@ -69,6 +69,8 @@ const CoursePage = () => {
   };
 
   const handleClose = () => {
+    setDeadline(null);
+    setDescription(null);
     setOpen(false);
   };
 
@@ -142,7 +144,7 @@ const CoursePage = () => {
               onMouseLeave={handleMouseLeave}
               position="relative"
               sx={{
-                backgroundColor: task.completed ? '#34eb55' : 'background.paper',
+                backgroundColor: task.completed ? '#34eb55' : task.deadline && dayjs(task.deadline).isBefore(dayjs()) ? 'red' : 'background.paper',
               }}
             >
 
@@ -150,7 +152,7 @@ const CoursePage = () => {
                   <>
                     <DeleteOutlineIcon
                       style={{
-                        color: 'red',
+                        color: task.deadline && dayjs(task.deadline).isBefore(dayjs()) ? 'black' : 'red',
                         position: 'absolute',
                         top: '10px',
                         right: '10px',
@@ -163,7 +165,7 @@ const CoursePage = () => {
                     {!task.completed ? (
                       <AssignmentTurnedInIcon
                         style={{
-                          color: '#05ff5d',
+                          color: task.deadline && dayjs(task.deadline).isBefore(dayjs()) ? 'black' : '#05ff5d',
                           position: 'absolute',
                           top: '10px',
                           right: '40px',
