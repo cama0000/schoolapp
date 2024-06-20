@@ -1,6 +1,6 @@
 import ProtectedRoutes from '@/components/ProtectedRoutes';
 import { useAuth } from '@/context/AuthContext';
-import { addTask, deleteTask, getCourse, getTasksByCourse } from '@/services/client';
+import { addTask, deleteTask, getCourse, getTasksByCourse, markCompleted } from '@/services/client';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 const CoursePage = () => {
   const router = useRouter();
@@ -97,6 +98,14 @@ const CoursePage = () => {
     toast.success("Task removed successfully!");
   }
 
+  const handleMarkCompleted = async (taskId) =>{
+    event.preventDefault();
+    const task = {id: taskId};
+    await markCompleted(task);
+    fetchTasks();
+    toast.success("Task complete!");
+  }
+
   if (!selectedCourse) return <div>Loading...</div>;
 
   return (
@@ -105,9 +114,9 @@ const CoursePage = () => {
         {selectedCourse.courseName}
       </span>
 
-      <span className="text-xl mt-8">
+      {/* <span className="text-xl mt-8">
         Here are your tasks.
-      </span>
+      </span> */}
 
       <Button style={{ color: 'purple' }}>
         <AddBoxIcon onClick={handleOpen}/>
@@ -132,9 +141,13 @@ const CoursePage = () => {
               onMouseEnter={() => handleMouseEnter(task.id)}
               onMouseLeave={handleMouseLeave}
               position="relative"
+              sx={{
+                backgroundColor: task.completed ? '#34eb55' : 'background.paper',
+              }}
             >
 
             {hoveredTaskId === task.id && (
+                  <>
                     <DeleteOutlineIcon
                       style={{
                         color: 'red',
@@ -146,6 +159,22 @@ const CoursePage = () => {
 
                       onClick={() => handleDeleteTask(task.id)}
                     />
+
+                    {!task.completed ? (
+                      <AssignmentTurnedInIcon
+                        style={{
+                          color: '#05ff5d',
+                          position: 'absolute',
+                          top: '10px',
+                          right: '40px',
+                          cursor: 'pointer',
+                        }}
+
+                        onClick={() => handleMarkCompleted(task.id)}
+                      />
+                    ) : null}
+
+                  </>
               )}
 
               <div className="task-details">

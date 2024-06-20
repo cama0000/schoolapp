@@ -24,4 +24,6 @@ public class TaskService {
     public Optional<Task> findById(Long id){return taskRepository.findById(id);}
 
     public void delete(Task task){ taskRepository.delete(task);};
+
+    public void markCompleted(Long id){ taskRepository.markCompleted(id); }
 }

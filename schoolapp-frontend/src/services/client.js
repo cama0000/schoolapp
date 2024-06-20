@@ -150,3 +150,15 @@ export const deleteTask = async (taskId) => {
         throw err;
     }
 };
+
+export const markCompleted = async (task) => {
+    try {
+        const response = await axios.put(`${HOST_NAME}task/markCompleted`, task,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("MARKCOMPLETED CLIENT ERROR: " + err);
+        throw err;
+    }
+};

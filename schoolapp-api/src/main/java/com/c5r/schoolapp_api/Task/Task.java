@@ -38,6 +38,9 @@ public class Task {
     @Column(name = "DEADLINE")
     private LocalDateTime deadline;
 
+    @Column(name = "COMPLETED", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean completed;
+
     @Column(
             name = "COURSE_ID",
             nullable = false

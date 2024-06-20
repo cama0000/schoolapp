@@ -21,7 +21,7 @@ const Home = () => {
     try{
       setLoading(true);
       const data = await getTasksByStudent(student?.id);
-      setTasks(data);
+      setTasks(data.filter((task) => !task.completed));
     }catch (err){
       console.error("GETTASKS CLIENT ERROR: ", err);
       setError(err);
