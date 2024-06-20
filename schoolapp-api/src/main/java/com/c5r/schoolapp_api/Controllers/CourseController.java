@@ -35,6 +35,7 @@ public class CourseController {
         Optional<Course> course = courseService.findById(id);
 
         if(course.isPresent()) {
+            taskService.deleteTasksByCourse(id);
             courseService.delete(course.get());
         }
         else{

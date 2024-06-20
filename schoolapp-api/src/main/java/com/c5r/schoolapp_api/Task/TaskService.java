@@ -26,4 +26,6 @@ public class TaskService {
     public void delete(Task task){ taskRepository.delete(task);};
 
     public void markCompleted(Long id){ taskRepository.markCompleted(id); }
+
+    public void deleteTasksByCourse(Long id){ taskRepository.deleteTasksByCourse(id); }
 }
