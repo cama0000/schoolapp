@@ -52,7 +52,7 @@ const Home = () => {
             </div>
           ))
         ) : (
-          <p>No tasks available for this student.</p>
+          <p>No tasks!</p>
         )}
 
     </div>

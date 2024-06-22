@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import CourseSideBar from '@/components/CourseSideBar';
 
 const CoursePage = () => {
   const router = useRouter();
@@ -112,6 +113,7 @@ const CoursePage = () => {
 
   return (
     <div className="flex-1 flex flex-col items-center mt-12">
+      
       <span className="text-6xl font-bold">
         {selectedCourse.courseName}
       </span>
