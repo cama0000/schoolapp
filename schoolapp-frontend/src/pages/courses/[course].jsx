@@ -26,10 +26,12 @@ const CoursePage = () => {
   const [error, setError] = useState(null);
   const [deadline, setDeadline] = useState(null);
   const [hoveredTaskId, setHoveredTaskId] = useState(null);
+  const { setCourseFromId } = useAuth();
 
   useEffect(() => {
     if (course) {
       fetchCourse(course);
+      setCourseFromId(course);
     }
   }, [course]);
 

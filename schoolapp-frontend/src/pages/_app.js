@@ -80,8 +80,8 @@ function MyApp({ Component, pageProps }) {
         <div className={`${showSidebar ? 'ml-32' : ''} flex-grow flex`}>
           {showCourseSideBar && (
             <>
-              <SideBar/> {/* Main Sidebar */}
-              <CourseSideBar/> {/* Course Sidebar */}
+              <SideBar/>
+              <CourseSideBar/>
             </>
           )}
           <Component {...pageProps} />

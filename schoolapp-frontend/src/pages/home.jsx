@@ -1,5 +1,4 @@
 import ProtectedRoutes from '@/components/ProtectedRoutes';
-import SideBar from '@/components/SideBar';
 import { useAuth } from '@/context/AuthContext';
 import { getTasksByStudent } from '@/services/client';
 import dayjs from 'dayjs';

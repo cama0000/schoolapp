@@ -105,13 +105,14 @@ import {
     useState
 } from "react";
 
-import { login as performLogin, getStudentFromUsername as getStudent } from "../services/client.js";
+import { login as performLogin, getStudentFromUsername as getStudent, getCourse } from "../services/client.js";
 import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
     const [student, setStudent] = useState();
+    const [course, setCourse] = useState();
 
     const setStudentFromToken = async () => {
         let token = localStorage.getItem("access_token");
@@ -176,10 +177,21 @@ const AuthProvider = ({ children }) => {
         return true;
     };
 
+    const setCourseFromId = async (id) =>{
+        try {
+            const courseData = await getCourse(id);
+            setCourse(courseData);
+          } catch (error) {
+            console.error("Error fetching course data:", error);
+          }
+    }
+
     return (
         <AuthContext.Provider
             value={{
                 student,
+                course,
+                setCourseFromId,
                 login,
                 logout,
                 isStudentAuthenticated,
