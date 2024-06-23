@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
-import { getPagesByCourse } from '@/services/client';
+import { addPage, getPagesByCourse } from '@/services/client';
+import dayjs from 'dayjs';
 
 const CourseSideBar = () => {
   const router = useRouter();
@@ -15,12 +16,12 @@ const CourseSideBar = () => {
 
   useEffect(()=>{
     if(course?.id){
-      fetchPages(course?.id);
+      fetchPages();
     }
   }, [course?.id])
 
-  const fetchPages = async (courseId) =>{
-    const pageData = await getPagesByCourse(courseId);
+  const fetchPages = async () =>{
+    const pageData = await getPagesByCourse(course?.id);
     setPages(pageData);
   }
 
@@ -35,9 +36,9 @@ const CourseSideBar = () => {
   const handleSubmit = async (event) =>{
     event.preventDefault();
 
-    // const task = { taskName, description, deadline: deadline, courseId: selectedCourse?.id, studentId: student?.id}
-    // await addTask(task);
-    // fetchTasks();
+    const page = { title, content: "", timeCreated: dayjs(), timeUpdated: dayjs(), courseId: course?.id}
+    await addPage(page);
+    fetchPages();
     handleClose();
 
     toast.success("Page created successfully!");

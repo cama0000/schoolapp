@@ -31,4 +31,9 @@ public class PageController {
 
         return ResponseEntity.ok(pages);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Page> addPage(@RequestBody Page page) {
+        return ResponseEntity.ok(pageService.save(page));
+    }
 }

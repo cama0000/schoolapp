@@ -177,3 +177,15 @@ export const getPagesByCourse = async (courseId) => {
         throw err;
     }
 };
+
+export const addPage = async (page) => {
+    try {
+        const response = await axios.post(`${HOST_NAME}page/add`, page,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("ADDPAGE CLIENT ERROR: " + err);
+        throw err;
+    }
+};
