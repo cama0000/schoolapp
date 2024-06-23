@@ -25,18 +25,19 @@ const CoursePage = () => {
   const [error, setError] = useState(null);
   const [deadline, setDeadline] = useState(null);
   const [hoveredTaskId, setHoveredTaskId] = useState(null);
-  const { setCourseFromId } = useAuth();
+  const { setCourseFromId, setPageFromId } = useAuth();
 
   useEffect(() => {
-    if (course) {
+    if(course) {
       fetchCourse(course);
       setCourseFromId(course);
+      setPageFromId(null);
     }
   }, [course]);
 
   // check if the student actually has this course
   useEffect(() => {
-    if (selectedCourse && student?.id !== selectedCourse?.studentId) {
+    if(selectedCourse && student?.id !== selectedCourse?.studentId){
       router.push('/home');
     }
 

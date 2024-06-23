@@ -189,3 +189,15 @@ export const addPage = async (page) => {
         throw err;
     }
 };
+
+export const getPage = async (pageId) => {
+    try {
+        const response = await axios.get(`${HOST_NAME}page/getPage/${pageId}`,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("GETPAGE CLIENT ERROR: " + err);
+        throw err;
+    }
+};

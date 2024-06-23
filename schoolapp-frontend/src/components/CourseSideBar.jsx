@@ -6,6 +6,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { toast } from 'react-toastify';
 import { addPage, getPagesByCourse } from '@/services/client';
 import dayjs from 'dayjs';
+import ArticleIcon from '@mui/icons-material/Article';
 
 const CourseSideBar = () => {
   const router = useRouter();
@@ -13,6 +14,7 @@ const CourseSideBar = () => {
   const [isOpen, setOpen] = useState(false);
   const [title, setTitle] = useState(false);
   const [pages, setPages] = useState(null);
+  const { page } = useAuth();
 
   useEffect(()=>{
     if(course?.id){
@@ -53,8 +55,8 @@ const CourseSideBar = () => {
       </div>
 
       <div className='mt-4 ml-2'>
-        <span style={{ cursor: 'pointer' }} onClick={()=>{
-          router.push(`/courses/${encodeURIComponent(course.id)}`)
+        <span style={{ cursor: 'pointer' }} className={`${router.pathname.startsWith('/courses/') ? 'bg-gray-400' : ''} hover:bg-gray-400 rounded-lg`} onClick={()=>{
+          router.push(`/courses/${encodeURIComponent(course?.id)}`)
         }}>
           Home
         </span>
@@ -70,9 +72,10 @@ const CourseSideBar = () => {
       {/* map pages */}
       <div className='ml-8'>
         {pages?.length > 0 ? (
-          pages.map((page) => (
-            <div key={page.id} className="page-item hover:cursor-pointer" onClick={()=>{router.push(`/page/${encodeURIComponent(page.id)}`)}}>
-              {page.title}
+          pages.map((mappedPage) => (
+            <div key={mappedPage.id} className={`page-item ${ page?.id === mappedPage?.id ? 'bg-gray-400' : '' } hover:cursor-pointer hover:bg-gray-400 rounded-lg`} onClick={()=>{router.push(`/page/${encodeURIComponent(mappedPage.id)}`)}}>
+              <ArticleIcon className='mr-2'/>
+              {mappedPage.title}
             </div>
           ))
         ) : (

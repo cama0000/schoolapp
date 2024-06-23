@@ -1,5 +1,6 @@
 package com.c5r.schoolapp_api.Controllers;
 
+import com.c5r.schoolapp_api.Course.Course;
 import com.c5r.schoolapp_api.Course.CourseService;
 import com.c5r.schoolapp_api.Page.Page;
 import com.c5r.schoolapp_api.Page.PageService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZoneId;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -35,5 +37,12 @@ public class PageController {
     @PostMapping("/add")
     public ResponseEntity<Page> addPage(@RequestBody Page page) {
         return ResponseEntity.ok(pageService.save(page));
+    }
+
+    @GetMapping("/getPage/{id}")
+    public ResponseEntity<Page> getPage(@PathVariable("id") Long id) {
+        Optional<Page> page = pageService.findById(id);
+
+        return page.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
