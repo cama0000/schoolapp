@@ -44,7 +44,7 @@ public class Page {
             name = "COURSE_ID",
             nullable = false
     )
-    private String courseId;
+    private Integer courseId;
 
     @CreationTimestamp
     @Column(name = "TIME_CREATED", updatable = false)

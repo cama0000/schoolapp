@@ -1,16 +1,28 @@
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
+import { getPagesByCourse } from '@/services/client';
 
 const CourseSideBar = () => {
   const router = useRouter();
   const { course } = useAuth();
   const [isOpen, setOpen] = useState(false);
   const [title, setTitle] = useState(false);
+  const [pages, setPages] = useState(null);
 
+  useEffect(()=>{
+    if(course?.id){
+      fetchPages(course?.id);
+    }
+  }, [course?.id])
+
+  const fetchPages = async (courseId) =>{
+    const pageData = await getPagesByCourse(courseId);
+    setPages(pageData);
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -54,6 +66,19 @@ const CourseSideBar = () => {
         <AddIcon style={{color: 'gray', width: '15px', cursor: 'pointer'}} onClick={handleOpen}/>
       </div>
 
+      {/* map pages */}
+      <div className='ml-8'>
+        {pages?.length > 0 ? (
+          pages.map((page) => (
+            <div key={page.id} className="page-item hover:cursor-pointer" onClick={()=>{router.push(`/page/${encodeURIComponent(page.id)}`)}}>
+              {page.title}
+            </div>
+          ))
+        ) : (
+          null
+        )}
+      </div>
+
 
 
 
@@ -64,11 +89,11 @@ const CourseSideBar = () => {
         component="form" validate="true" onSubmit={handleSubmit}
         disableScrollLock={true}
       >
-        <DialogTitle>Create Page</DialogTitle>
+        <DialogTitle>Add Page</DialogTitle>
         <DialogContent>
 
             <DialogContentText>
-                Create a page.
+                Add a page to your notebook.
             </DialogContentText>
 
             <TextField
@@ -90,8 +115,8 @@ const CourseSideBar = () => {
         </DialogContent>
 
         <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" type="submit" onSubmit={handleSubmit} color="primary">Create</Button>
+            <Button onClick={handleClose} style={{ backgroundColor: 'red', color: 'white' }}>Cancel</Button>
+            <Button variant="contained" type="submit" onSubmit={handleSubmit} color="primary">Add</Button>
         </DialogActions>
 
     </Dialog>

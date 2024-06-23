@@ -162,3 +162,18 @@ export const markCompleted = async (task) => {
         throw err;
     }
 };
+
+export const getPagesByCourse = async (courseId) => {
+    try {
+        // const options = Intl.DateTimeFormat().resolvedOptions();
+        // const timezone = options.timeZone;
+
+        const response = await axios.get(`${HOST_NAME}page/getPagesByCourse/${courseId}`,
+            getAuthConfig());
+            
+        return response.data;
+    } catch (err) {
+        console.log("GETPAGES CLIENT ERROR: " + err);
+        throw err;
+    }
+};

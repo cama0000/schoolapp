@@ -11,7 +11,6 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import CourseSideBar from '@/components/CourseSideBar';
 
 const CoursePage = () => {
   const router = useRouter();
@@ -128,6 +127,7 @@ const CoursePage = () => {
         <AddBoxIcon onClick={handleOpen}/>
       </Button>
 
+      {/* map pages */}
       <div className='tasks-container p-4 m-2 mb-10 border rounded'>
       {tasks?.length > 0 ? (
         tasks.map((task) => (
