@@ -55,7 +55,7 @@ const CourseSideBar = () => {
       </div>
 
       <div className='mt-4 ml-2'>
-        <span style={{ cursor: 'pointer' }} className={`${router.pathname.startsWith('/courses/') ? 'bg-gray-400' : ''} hover:bg-gray-400 rounded-lg`} onClick={()=>{
+        <span style={{ cursor: 'pointer' }} className={`${router.pathname.startsWith('/courses/') ? 'bg-purple-500' : ''} hover:bg-purple-500 rounded-lg`} onClick={()=>{
           router.push(`/courses/${encodeURIComponent(course?.id)}`)
         }}>
           Home
@@ -73,7 +73,7 @@ const CourseSideBar = () => {
       <div className='ml-8'>
         {pages?.length > 0 ? (
           pages.map((mappedPage) => (
-            <div key={mappedPage.id} className={`page-item ${ page?.id === mappedPage?.id ? 'bg-gray-400' : '' } title-overflow hover:cursor-pointer hover:bg-gray-400 rounded-lg mt-2`} onClick={()=>{router.push(`/page/${encodeURIComponent(mappedPage.id)}`)}}>
+            <div key={mappedPage.id} className={`page-item ${ page?.id === mappedPage?.id ? 'bg-purple-500' : '' } title-overflow hover:cursor-pointer hover:bg-purple-500 rounded-lg mt-2`} onClick={()=>{router.push(`/page/${encodeURIComponent(mappedPage.id)}`)}}>
               <ArticleIcon className='mr-2'/>
               <span>
                 {mappedPage.title}

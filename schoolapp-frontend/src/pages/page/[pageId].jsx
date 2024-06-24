@@ -3,7 +3,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 import 'draft-js/dist/Draft.css';
-import MyEditor from '@/components/MyEditor';
+import RichTextEditor from '@/components/RichTextEditor';
 
 const NotebookPage = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ const NotebookPage = () => {
         </span>
 
         <div className="mt-12 justify-center flex">
-            <MyEditor />
+            <RichTextEditor />
         </div>
     </div>
   )
