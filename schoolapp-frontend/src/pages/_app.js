@@ -9,20 +9,17 @@ import CourseSideBar from '@/components/CourseSideBar';
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const showSidebar = router.pathname !== '/login' && router.pathname !== '/register' && router.pathname !== '/';
-  const showCourseSideBar = (router.pathname.startsWith('/courses/') || router.pathname.startsWith('/page/') ) && router.pathname !== '/courses';
+  const showCourseSideBar = (router.pathname.startsWith('/courses/') || router.pathname.startsWith('/page/')) && router.pathname !== '/courses';
 
   return (
     <AuthProvider>
       <div className="flex h-screen">
         {showSidebar && <SideBar />}
-        <div className={`${showSidebar ? 'ml-32' : ''} flex-grow flex`}>
-          {showCourseSideBar && (
-            <>
-              <SideBar/>
-              <CourseSideBar/>
-            </>
-          )}
-          <Component {...pageProps} />
+        <div className={`flex-grow flex ${showSidebar ? 'ml-32' : ''}`}>
+          {showCourseSideBar && <CourseSideBar />}
+          <div className={`flex-grow ${showCourseSideBar ? 'ml-48' : ''}`}>
+            <Component {...pageProps} />
+          </div>
         </div>
       </div>
       <ToastContainer limit={5} />

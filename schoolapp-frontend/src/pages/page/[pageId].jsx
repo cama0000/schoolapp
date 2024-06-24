@@ -2,6 +2,8 @@ import ProtectedRoutes from '@/components/ProtectedRoutes';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
+import 'draft-js/dist/Draft.css';
+import MyEditor from '@/components/MyEditor';
 
 const NotebookPage = () => {
   const router = useRouter();
@@ -15,15 +17,15 @@ const NotebookPage = () => {
   }, [pageId])
 
   return (
-    <div className="mt-12 w-full flex justify-center">
+    <div className="mt-12 w-full flex-col text-center justify-center">
         <span className="text-5xl font-bold">
-          {page?.title}
+            {page?.title}
         </span>
-      </div>
 
-
-
-
+        <div className="mt-12 justify-center flex">
+            <MyEditor />
+        </div>
+    </div>
   )
 }
 

@@ -33,3 +33,18 @@ body {
     text-wrap: balance;
   }
 }
+
+.editor {
+  border: 1px solid #ccc;
+  min-height: 50em;
+  padding: 1em;
+  width: 75%;
+}
+
+.title-overflow{
+  display: inline-block; /* Ensure it behaves like an inline element */
+  max-width: 100%; /* Limit the width to the container's width */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Show ellipsis for overflow content */
+  white-space: nowrap;
+}

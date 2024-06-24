@@ -47,9 +47,9 @@ const CourseSideBar = () => {
   }
 
   return (
-    <div className='hidden md:flex flex-col ml-7 h-full w-48 bg-purple-300 text-white'>
+    <div className='hidden md:flex fixed top-0 flex-col ml-7 h-full w-48 bg-purple-300 text-white'>
       <div className="w-full flex justify-center">
-        <span className="text-3xl font-bold">
+        <span className="text-3xl font-bold mt-5">
           {course?.courseName}
         </span>
       </div>
@@ -73,9 +73,11 @@ const CourseSideBar = () => {
       <div className='ml-8'>
         {pages?.length > 0 ? (
           pages.map((mappedPage) => (
-            <div key={mappedPage.id} className={`page-item ${ page?.id === mappedPage?.id ? 'bg-gray-400' : '' } hover:cursor-pointer hover:bg-gray-400 rounded-lg`} onClick={()=>{router.push(`/page/${encodeURIComponent(mappedPage.id)}`)}}>
+            <div key={mappedPage.id} className={`page-item ${ page?.id === mappedPage?.id ? 'bg-gray-400' : '' } title-overflow hover:cursor-pointer hover:bg-gray-400 rounded-lg mt-2`} onClick={()=>{router.push(`/page/${encodeURIComponent(mappedPage.id)}`)}}>
               <ArticleIcon className='mr-2'/>
-              {mappedPage.title}
+              <span>
+                {mappedPage.title}
+              </span>
             </div>
           ))
         ) : (
