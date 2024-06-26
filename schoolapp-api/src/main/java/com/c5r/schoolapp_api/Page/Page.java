@@ -33,6 +33,8 @@ public class Page {
     )
     private String title;
 
+
+    @Lob
     @Column(
             name = "CONTENT",
             nullable = false,

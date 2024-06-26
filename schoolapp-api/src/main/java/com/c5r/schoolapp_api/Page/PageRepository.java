@@ -10,4 +10,5 @@ import java.util.Set;
 public interface PageRepository extends JpaRepository<Page, Long> {
     @Query(value = "SELECT * FROM pages p WHERE p.COURSE_ID = ?1", nativeQuery = true)
     public Set<Page> findByCourseId(Long id);
+
 }
