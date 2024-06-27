@@ -1,7 +1,7 @@
 import ProtectedRoutes from '@/components/ProtectedRoutes';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import 'draft-js/dist/Draft.css';
 import RichTextEditor from '@/components/RichTextEditor';
 import { Button, TextField } from '@mui/material';
@@ -10,17 +10,25 @@ import dayjs from 'dayjs';
 const NotebookPage = () => {
     const router = useRouter();
     const { pageId } = router.query;
-    const { setPageFromId, page, course } = useAuth();
+    const { setPageFromId, page, course, student } = useAuth();
     const editorRef = useRef(null);
     const [saving, setSaving] = useState(false);
     const [timeUpdated, setTimeUpdated] = useState(null);
 
     useEffect(() => {
-        if (pageId) {
+        if(pageId){
             setPageFromId(pageId);
             handleLoad();
         }
     }, [pageId]);
+
+    // check if the student actually has this page
+  useEffect(() => {
+    if(page?.studentId !== student?.id){
+      router.push('/home');
+    }
+
+  }, [pageId, student?.id]);
 
     // set time updated initially
     useEffect(() => {
@@ -68,19 +76,6 @@ const NotebookPage = () => {
   };
 
     return (
-      //   <div className="mt-12 w-full flex flex-col">
-      //   <span className="text-5xl font-bold ml-32">{page?.title}</span>
-      //   <span className='ml-32 mt-3'>Last updated at: <em>{ timeUpdated ? dayjs(timeUpdated).format('MMMM DD, YYYY h:mm A') : 'N/A'}</em></span>
-      //   <div className="mt-12 w-full flex justify-center">
-      //     <RichTextEditor ref={editorRef} pageId={pageId} pageContent={page ? page.content : ''} />
-      //   </div>
-      //   <div className="flex justify-center mt-4">
-      //     <Button className="p-2 bg-purple-500 text-white rounded" onClick={handleSave}>
-      //       Save
-      //     </Button>
-      //   </div>
-      // </div>
-
       <div className="mt-12 w-full flex flex-col">
         <div className='ml-32 mt-0'>
           {course?.courseName} / {page?.title}

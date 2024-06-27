@@ -10,7 +10,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 
 const CourseSideBar = () => {
   const router = useRouter();
-  const { course } = useAuth();
+  const { course, student } = useAuth();
   const [isOpen, setOpen] = useState(false);
   const [title, setTitle] = useState(false);
   const [pages, setPages] = useState(null);
@@ -38,7 +38,7 @@ const CourseSideBar = () => {
   const handleSubmit = async (event) =>{
     event.preventDefault();
 
-    const page = { title, content: "", timeCreated: dayjs(), timeUpdated: dayjs(), courseId: course?.id}
+    const page = { title, content: "", timeCreated: dayjs(), timeUpdated: dayjs(), courseId: course?.id, studentId: student?.id}
     await addPage(page);
     fetchPages();
     handleClose();
