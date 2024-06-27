@@ -48,6 +48,12 @@ public class Page {
     )
     private Integer courseId;
 
+    @Column(
+            name = "STUDENT_ID",
+            nullable = false
+    )
+    private Integer studentId;
+
     @CreationTimestamp
     @Column(name = "TIME_CREATED", updatable = false)
     private LocalDateTime timeCreated;
