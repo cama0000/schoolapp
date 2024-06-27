@@ -75,7 +75,7 @@ const CourseSideBar = () => {
         <span>
           Notebook
         </span>
-        <AddIcon style={{color: 'gray', width: '15px', cursor: 'pointer'}} onClick={handleOpen}/>
+        <AddIcon style={{color: 'gray', width: '15px', cursor: 'pointer', marginLeft: '4px', marginTop: '1px'}} onClick={handleOpen}/>
       </div>
 
       {/* map pages */}

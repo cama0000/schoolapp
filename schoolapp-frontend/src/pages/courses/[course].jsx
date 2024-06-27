@@ -128,7 +128,7 @@ const CoursePage = () => {
         <AddBoxIcon onClick={handleOpen}/>
       </Button>
 
-      {/* map pages */}
+      {/* map tasks */}
       <div className='tasks-container p-4 m-2 mb-10 border rounded'>
       {tasks?.length > 0 ? (
         tasks.map((task) => (
