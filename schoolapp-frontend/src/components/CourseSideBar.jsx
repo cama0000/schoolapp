@@ -59,9 +59,9 @@ const CourseSideBar = () => {
           style={{ 
             cursor: 'pointer', 
             display: 'inline-block', 
-            padding: router.pathname.startsWith('/courses/') ? '5px 110px 5px 20px' : '5px 120px 5px 15px', // Adjust padding for width and height
-            margin: '0 100px 0 auto', // Margin to extend more to the right
-            borderRadius: '8px', // Rounded corners
+            padding: '5px 110px 5px 20px',
+            margin: '0 100px 0 auto',
+            borderRadius: '8px'
           }} 
           className={`${router.pathname.startsWith('/courses/') ? 'bg-purple-500' : ''} hover:bg-purple-500 rounded-lg`} 
           onClick={() => {
@@ -82,7 +82,15 @@ const CourseSideBar = () => {
       <div className='ml-8'>
         {pages?.length > 0 ? (
           pages.map((mappedPage) => (
-            <div key={mappedPage.id} className={`page-item ${ page?.id === mappedPage?.id ? 'bg-purple-500' : '' } title-overflow hover:cursor-pointer hover:bg-purple-500 rounded-lg mt-2`} onClick={()=>{router.push(`/page/${encodeURIComponent(mappedPage.id)}`)}}>
+            <div 
+            style={{ 
+              cursor: 'pointer', 
+              display: 'inline-block', 
+              padding: '5px 40px 5px 20px',
+              margin: '0 100px 0 auto',
+              borderRadius: '8px'
+            }} 
+            key={mappedPage.id} className={`page-item ${ page?.id === mappedPage?.id ? 'bg-purple-500' : '' } title-overflow hover:cursor-pointer hover:bg-purple-500 rounded-lg mt-2`} onClick={()=>{router.push(`/page/${encodeURIComponent(mappedPage.id)}`)}}>
               <ArticleIcon className='mr-2'/>
               <span>
                 {mappedPage.title}
