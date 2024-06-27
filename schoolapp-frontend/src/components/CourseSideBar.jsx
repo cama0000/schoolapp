@@ -55,9 +55,18 @@ const CourseSideBar = () => {
       </div>
 
       <div className='mt-4 ml-2'>
-        <span style={{ cursor: 'pointer' }} className={`${router.pathname.startsWith('/courses/') ? 'bg-purple-500' : ''} hover:bg-purple-500 rounded-lg`} onClick={()=>{
-          router.push(`/courses/${encodeURIComponent(course?.id)}`)
-        }}>
+        <span 
+          style={{ 
+            cursor: 'pointer', 
+            display: 'inline-block', 
+            padding: router.pathname.startsWith('/courses/') ? '5px 110px 5px 20px' : '5px 120px 5px 15px', // Adjust padding for width and height
+            margin: '0 100px 0 auto', // Margin to extend more to the right
+            borderRadius: '8px', // Rounded corners
+          }} 
+          className={`${router.pathname.startsWith('/courses/') ? 'bg-purple-500' : ''} hover:bg-purple-500 rounded-lg`} 
+          onClick={() => {
+            router.push(`/courses/${encodeURIComponent(course?.id)}`)
+          }}>
           Home
         </span>
       </div>

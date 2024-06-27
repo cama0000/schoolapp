@@ -18,17 +18,23 @@ const NotebookPage = () => {
     useEffect(() => {
         if(pageId){
             setPageFromId(pageId);
+
+            // if(page && page?.studentId !== student?.id){
+            //   router.push('/home');
+            // }
+
             handleLoad();
         }
     }, [pageId]);
 
     // check if the student actually has this page
   useEffect(() => {
-    if(page?.studentId !== student?.id){
+    console.log("PAGES STUENT ID: " + page?.studentId);
+    if(page && page?.studentId !== student?.id){
       router.push('/home');
     }
 
-  }, [pageId, student?.id]);
+  }, [page, student?.id]);
 
     // set time updated initially
     useEffect(() => {
@@ -54,7 +60,7 @@ const NotebookPage = () => {
     }, []);
 
     const handleSave = () => {
-        if (editorRef.current) {
+        if(editorRef.current){
             setSaving(true);
             editorRef.current.save()
             .then(() => {
@@ -70,7 +76,7 @@ const NotebookPage = () => {
     };
 
     const handleLoad = () => {
-      if (editorRef.current) {
+      if(editorRef.current){
           editorRef.current.load();
       }
   };
