@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
-import { addPage, getPagesByCourse } from '@/services/client';
+import { addPage, deletePage, getPagesByCourse } from '@/services/client';
 import dayjs from 'dayjs';
 import ArticleIcon from '@mui/icons-material/Article';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const CourseSideBar = () => {
   const router = useRouter();
@@ -15,6 +16,7 @@ const CourseSideBar = () => {
   const [title, setTitle] = useState(false);
   const [pages, setPages] = useState(null);
   const { page } = useAuth();
+  const [hoveredPageId, setHoveredPageId] = useState(null);
 
   useEffect(()=>{
     if(course?.id){
@@ -44,6 +46,13 @@ const CourseSideBar = () => {
     handleClose();
 
     toast.success("Page created successfully!");
+  }
+
+  const handleDeletePage = async (pageId) =>{
+    await deletePage(pageId);
+    router.push(`/courses/${encodeURIComponent(course.id)}`);
+    fetchPages();
+    toast.success("Page removed successfully!");
   }
 
   return (
@@ -79,7 +88,7 @@ const CourseSideBar = () => {
       </div>
 
       {/* map pages */}
-      <div className='ml-8'>
+      {/* <div className='ml-2'>
         {pages?.length > 0 ? (
           pages.map((mappedPage) => (
             <div 
@@ -88,9 +97,25 @@ const CourseSideBar = () => {
               display: 'inline-block', 
               padding: '5px 40px 5px 20px',
               margin: '0 100px 0 auto',
-              borderRadius: '8px'
+              borderRadius: '8px',
             }} 
+            onMouseEnter={()=>setHoveredPageId(mappedPage.id)}
+            onMouseLeave={()=>setHoveredPageId(null)}
             key={mappedPage.id} className={`page-item ${ page?.id === mappedPage?.id ? 'bg-purple-500' : '' } title-overflow hover:cursor-pointer hover:bg-purple-500 rounded-lg mt-2`} onClick={()=>{router.push(`/page/${encodeURIComponent(mappedPage.id)}`)}}>
+
+            {hoveredPageId === mappedPage.id && (
+                    <DeleteOutlineIcon
+                      style={{
+                        color: 'black',
+                        cursor: 'pointer',
+                      }}
+
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeletePage(mappedPage.id)}}
+                    />
+                    
+                    )}
               <ArticleIcon className='mr-2'/>
               <span>
                 {mappedPage.title}
@@ -100,7 +125,96 @@ const CourseSideBar = () => {
         ) : (
           null
         )}
+      </div> */}
+{/* 
+<div className='ml-2'>
+  {pages?.length > 0 ? (
+    pages.map((mappedPage) => (
+      <div 
+        key={mappedPage.id}
+        style={{ 
+          cursor: 'pointer', 
+          display: 'flex', 
+          alignItems: 'center', 
+          padding: '5px 20px',
+          margin: '0 100px 0 auto',
+          borderRadius: '8px',
+          position: 'relative', // Required for absolute positioning of the icon
+        }} 
+        className={`page-item ${page?.id === mappedPage?.id ? 'bg-purple-500' : ''} title-overflow hover:cursor-pointer hover:bg-purple-500 rounded-lg mt-2`}
+        onMouseEnter={() => setHoveredPageId(mappedPage.id)}
+        onMouseLeave={() => setHoveredPageId(null)}
+        onClick={() => { router.push(`/page/${encodeURIComponent(mappedPage.id)}`); }}
+      >
+        <DeleteOutlineIcon
+          style={{
+            color: 'black',
+            cursor: 'pointer',
+            visibility: hoveredPageId === mappedPage.id ? 'visible' : 'hidden',
+            position: 'absolute',
+            left: '0',
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeletePage(mappedPage.id);
+          }}
+        />
+        <ArticleIcon className='mr-2' />
+        <span className="inline-block max-w-full overflow-hidden text-ellipsis whitespace-nowrap">
+          {mappedPage.title}
+        </span>
       </div>
+    ))
+  ) : (
+    null
+  )}
+</div> */}
+
+
+<div className='ml-2'>
+  {pages?.length > 0 ? (
+    pages.map((mappedPage) => (
+      <div 
+        key={mappedPage.id}
+        style={{ 
+          cursor: 'pointer', 
+          display: 'flex', 
+          alignItems: 'center', 
+          padding: '5px 40px',
+          margin: '0 10px 0 auto',
+          borderRadius: '8px',
+          position: 'relative', // Required for absolute positioning of the icon
+        }} 
+        className={`page-item ${page?.id === mappedPage?.id ? 'bg-purple-500' : ''} title-overflow hover:cursor-pointer hover:bg-purple-500 rounded-lg mt-2`}
+        onMouseEnter={() => setHoveredPageId(mappedPage.id)}
+        onMouseLeave={() => setHoveredPageId(null)}
+        onClick={() => { router.push(`/page/${encodeURIComponent(mappedPage.id)}`); }}
+      >
+        <DeleteOutlineIcon
+          style={{
+            color: 'black',
+            cursor: 'pointer',
+            visibility: hoveredPageId === mappedPage.id ? 'visible' : 'hidden',
+            position: 'absolute',
+            left: '0',
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeletePage(mappedPage.id);
+          }}
+        />
+        <ArticleIcon className='mr-2' />
+        <span className="title-overflow">
+          {mappedPage.title}
+        </span>
+      </div>
+    ))
+  ) : (
+    null
+  )}
+</div>
+
+
 
 
 

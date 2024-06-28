@@ -228,3 +228,15 @@ export const loadPageContent = async (pageId) => {
         throw err;
     }
 };
+
+export const deletePage = async (pageId) => {
+    try {
+        const response = await axios.delete(`${HOST_NAME}page/delete/${pageId}`,
+            getAuthConfig());
+
+        return response.data;
+    } catch (err) {
+        console.log("DELETEPAGE CLIENT ERROR: " + err);
+        throw err;
+    }
+};

@@ -6,6 +6,8 @@ import 'draft-js/dist/Draft.css';
 import RichTextEditor from '@/components/RichTextEditor';
 import { Button, TextField } from '@mui/material';
 import dayjs from 'dayjs';
+import { deletePage } from '@/services/client';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const NotebookPage = () => {
     const router = useRouter();
@@ -18,10 +20,6 @@ const NotebookPage = () => {
     useEffect(() => {
         if(pageId){
             setPageFromId(pageId);
-
-            // if(page && page?.studentId !== student?.id){
-            //   router.push('/home');
-            // }
 
             handleLoad();
         }
@@ -79,7 +77,7 @@ const NotebookPage = () => {
       if(editorRef.current){
           editorRef.current.load();
       }
-  };
+    };
 
     return (
       <div className="mt-12 w-full flex flex-col">

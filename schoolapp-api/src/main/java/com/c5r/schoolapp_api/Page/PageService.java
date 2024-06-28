@@ -30,6 +30,8 @@ public class PageService {
 
         return pageRepository.save(page);
     }
+
+    public void delete(Page page){ pageRepository.delete(page);};
 }
 
 

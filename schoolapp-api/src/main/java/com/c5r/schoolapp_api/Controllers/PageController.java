@@ -70,4 +70,16 @@ public class PageController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deletePage(@PathVariable("id") long id) {
+        Optional<Page> page = pageService.findById(id);
+
+        if(page.isPresent()) {
+            pageService.delete(page.get());
+        }
+        else{
+            ResponseEntity.notFound().build();
+        }
+    }
 }

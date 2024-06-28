@@ -122,7 +122,7 @@ const RichTextEditor = forwardRef((props, ref) => {
                     handleKeyCommand={handleKeyCommand}
                     keyBindingFn={mapKeyToEditorCommand}
                     onChange={onChange}
-                    placeholder="Enter text..."
+                    placeholder="Enter text here. Press Ctrl + S to save text."
                     ref={editorRef}
                     spellCheck={true}
                 />
