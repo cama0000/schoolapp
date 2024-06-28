@@ -173,7 +173,7 @@ export const getPagesByCourse = async (courseId) => {
             
         return response.data;
     } catch (err) {
-        console.log("GETPAGES CLIENT ERROR: " + err);
+        console.log("GETPAGESCOURSE CLIENT ERROR: " + err);
         throw err;
     }
 };
@@ -237,6 +237,21 @@ export const deletePage = async (pageId) => {
         return response.data;
     } catch (err) {
         console.log("DELETEPAGE CLIENT ERROR: " + err);
+        throw err;
+    }
+};
+
+export const getPagesByStudent = async (studentId) => {
+    try {
+        // const options = Intl.DateTimeFormat().resolvedOptions();
+        // const timezone = options.timeZone;
+
+        const response = await axios.get(`${HOST_NAME}page/getPagesByStudent/${studentId}`,
+            getAuthConfig());
+            
+        return response.data;
+    } catch (err) {
+        console.log("GETPAGESSTUDENT CLIENT ERROR: " + err);
         throw err;
     }
 };

@@ -25,13 +25,6 @@ public class PageController {
     public ResponseEntity<Set<Page>> getPagesByCourse(@PathVariable("id") long id) {
         Set<Page> pages = pageService.findPagesByCourse(id);
 
-//        ZoneId timeZoneId = ZoneId.of(timeZone);
-//        tasks.forEach(task -> {
-//            if(task.getDeadline() != null){
-//                task.setDeadline(task.getDeadline().atZone(ZoneId.of("UTC")).withZoneSameInstant(timeZoneId).toLocalDateTime());
-//            }
-//        });
-
         return ResponseEntity.ok(pages);
     }
 
@@ -81,5 +74,12 @@ public class PageController {
         else{
             ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/getPagesByStudent/{id}")
+    public ResponseEntity<Set<Page>> getPagesByStudent(@PathVariable("id") long id) {
+        Set<Page> pages = pageService.findPagesByStudent(id);
+
+        return ResponseEntity.ok(pages);
     }
 }

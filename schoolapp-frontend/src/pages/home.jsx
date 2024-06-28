@@ -1,23 +1,29 @@
 import ProtectedRoutes from '@/components/ProtectedRoutes';
 import { useAuth } from '@/context/AuthContext';
-import { deleteTask, getTasksByStudent, markCompleted } from '@/services/client';
+import { deleteTask, getPagesByStudent, getTasksByStudent, markCompleted } from '@/services/client';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
+import { Router, useRouter } from 'next/router';
 
 const Home = () => {
-  const { student, logout } = useAuth();
+  const { student, setCourseFromId} = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hoveredTaskId, setHoveredTaskId] = useState(null);
+  const [pages, setPages] = useState([]);
+  const [yesterdayPages, setYesterdayPages] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     if (student) {
       fetchTasks();
+      fetchPages();
     }
   }, [student]);
 
@@ -33,6 +39,29 @@ const Home = () => {
       setLoading(false);
     }
   };
+
+  const fetchPages = async () => {
+    try {
+      const pageData = await getPagesByStudent(student?.id);
+
+      setPages(pageData);
+      
+      const startOfYesterday = dayjs().subtract(1, 'day').startOf('day');
+      const endOfYesterday = dayjs().subtract(1, 'day').endOf('day');
+
+      const filteredPages = pageData.filter((page) => 
+        dayjs(page.updatedAt).isAfter(startOfYesterday) && dayjs(page.updatedAt).isBefore(endOfYesterday)
+      );
+  
+      setYesterdayPages(filteredPages);
+    } catch (err) {
+      console.error("GETPAGES CLIENT ERROR: ", err);
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   const handleMouseEnter = (taskId) => {
     setHoveredTaskId(taskId);
@@ -63,7 +92,7 @@ const Home = () => {
         Welcome, {student?.firstName}.
       </span>
 
-      <span className="text-xl mt-8">
+      <span className="text-2xl mt-20 mb-5">
         Here are your upcoming deadlines.
       </span>
 
@@ -86,7 +115,7 @@ const Home = () => {
                 onMouseLeave={handleMouseLeave}
                 position="relative"
                 sx={{
-                  backgroundColor: task.completed ? '#34eb55' : task.deadline && dayjs(task.deadline).isBefore(dayjs()) ? 'red' : 'background.paper',
+                  backgroundColor: task.completed ? '#34eb55' : task.deadline && dayjs(task.deadline).isBefore(dayjs()) ? 'red' : 'background.paper'
                 }}
               >
                 {hoveredTaskId === task.id && (
@@ -131,6 +160,68 @@ const Home = () => {
         </div>
       ) : (
         <p>No tasks!</p>
+      )}
+
+      <span className="text-2xl mt-20">
+        Your recently visited pages.
+      </span>
+
+      {pages.length > 0 ? (
+        <div className="pages-container p-4 m-2 mb-10 border rounded">
+          {pages.map((mappedPage) => (
+            <div key={mappedPage.id} className="page-item">
+              <Box
+                className="page-item mx-4 mt-7 mb-7"
+                p={3}
+                boxShadow={3}
+                borderRadius={4}
+                bgcolor="background.paper"
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                width={1000}
+                minHeight={80}
+                onClick={()=>{
+                  setCourseFromId(mappedPage.courseId);
+                  router.push(`/page/${encodeURIComponent(mappedPage.id)}`);
+                }}
+                // onMouseEnter={() => handleMouseEnter(page.id)}
+                // onMouseLeave={handleMouseLeave}
+                position="relative"
+                sx={{
+                  backgroundColor: 'background.paper', cursor: 'pointer'
+                }}
+              >
+                {/* {hoveredTaskId === task.id && (
+                  <>
+                    <DeleteOutlineIcon
+                      style={{
+                        color: task.deadline && dayjs(task.deadline).isBefore(dayjs()) ? 'black' : 'red',
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => handleDeleteTask(task.id)}
+                    />
+                  </>
+                )} */}
+
+                <div className="page-details">
+                  <h3 className="page-title font-bold">{mappedPage.title}</h3>
+                  {/* <p className="page-description">{mappedPage.}</p> */}
+                </div>
+                {mappedPage.timeUpdated && (
+                  <p>
+                    Last Updated: {dayjs(mappedPage.timeUpdated).format('MMMM DD, YYYY h:mm A')}
+                  </p>
+                )}
+              </Box>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No pages!</p>
       )}
     </div>
   );

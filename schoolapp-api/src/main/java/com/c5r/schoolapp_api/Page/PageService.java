@@ -1,12 +1,15 @@
 package com.c5r.schoolapp_api.Page;
 
 import com.c5r.schoolapp_api.Course.Course;
+import com.c5r.schoolapp_api.Student.Student;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PageService {
@@ -31,7 +34,13 @@ public class PageService {
         return pageRepository.save(page);
     }
 
+    @Transactional
     public void delete(Page page){ pageRepository.delete(page);};
+
+    @Transactional
+    public Set<Page> findPagesByStudent(Long id) {
+        return pageRepository.findByStudentId(id);
+    }
 }
 
 
