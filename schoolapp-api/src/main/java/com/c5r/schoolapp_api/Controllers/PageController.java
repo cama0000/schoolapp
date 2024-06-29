@@ -82,4 +82,14 @@ public class PageController {
 
         return ResponseEntity.ok(pages);
     }
+
+    @RequestMapping(
+            value = "/getPagesBySearch",
+            method = RequestMethod.POST
+    )
+    public ResponseEntity<Set<Page>> getPagesBySearch(@RequestBody Page search) {
+        Set<Page> pages = pageService.findPagesBySearch(Long.valueOf(search.getStudentId()), search.getTitle());
+
+        return ResponseEntity.ok(pages);
+    }
 }

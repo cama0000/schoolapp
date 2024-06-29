@@ -255,3 +255,18 @@ export const getPagesByStudent = async (studentId) => {
         throw err;
     }
 };
+
+export const getPagesBySearch = async (search) => {
+    try {
+        // const options = Intl.DateTimeFormat().resolvedOptions();
+        // const timezone = options.timeZone;
+
+        const response = await axios.post(`${HOST_NAME}page/getPagesBySearch`, search, 
+            getAuthConfig());
+            
+        return response.data;
+    } catch (err) {
+        console.log("GETPAGESSEARCH CLIENT ERROR: " + err);
+        throw err;
+    }
+};

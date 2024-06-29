@@ -14,4 +14,8 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     @Query(value = "SELECT * FROM pages p WHERE p.STUDENT_ID = ?1", nativeQuery = true)
     public Set<Page> findByStudentId(Long id);
 
+
+    @Query(value = "SELECT * FROM pages p WHERE p.student_id = ?1 AND p.title LIKE %?2%", nativeQuery = true)
+    public Set<Page> findBySearch(Long id, String search);
+
 }

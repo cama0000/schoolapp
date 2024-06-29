@@ -41,6 +41,11 @@ public class PageService {
     public Set<Page> findPagesByStudent(Long id) {
         return pageRepository.findByStudentId(id);
     }
+
+    @Transactional
+    public Set<Page> findPagesBySearch(Long id, String search){
+        return pageRepository.findBySearch(id, search);
+    }
 }
 
 

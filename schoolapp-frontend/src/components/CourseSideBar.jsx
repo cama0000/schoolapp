@@ -100,7 +100,7 @@ const CourseSideBar = () => {
                 padding: '5px 40px',
                 margin: '0 10px 0 auto',
                 borderRadius: '8px',
-                position: 'relative', // Required for absolute positioning of the icon
+                position: 'relative',
               }} 
               className={`page-item ${page?.id === mappedPage?.id ? 'bg-purple-500' : ''} title-overflow hover:cursor-pointer hover:bg-purple-500 rounded-lg mt-2`}
               onMouseEnter={() => setHoveredPageId(mappedPage.id)}

@@ -73,7 +73,6 @@ const NotebookPage = () => {
 
     const handleLoad = () => {
       if(editorRef.current){
-          console.log("USING THIS MF PAGE ID: " + pageId);
           editorRef.current.load();
       }
     };
@@ -85,9 +84,9 @@ const NotebookPage = () => {
         </div>
         <div className="flex justify-between items-center">
             <span className="text-5xl font-bold ml-32">{page?.title}</span>
-            <Button className="mr-32 p-2 bg-purple-500 text-white rounded" onClick={handleSave} disabled={saving}>
+            {/* <Button className="mr-32 p-2 bg-purple-500 text-white rounded" onClick={handleSave} disabled={saving}>
                 {saving ? 'Saving...' : 'Save'}
-            </Button>
+            </Button> */}
         </div>
         <span className='ml-32 mt-3'>
             Last updated at: <em>{timeUpdated ? dayjs(timeUpdated).format('MMMM DD, YYYY h:mm A') : 'N/A'}</em>
