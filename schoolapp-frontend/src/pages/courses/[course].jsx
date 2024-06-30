@@ -190,7 +190,7 @@ const CoursePage = () => {
               </div>
               {task.deadline && (
                 <p className="task-due-date">
-                  {dayjs(task.deadline).format('MMMM DD, YYYY h:mm A')}
+                  <em>{dayjs(task.deadline).format('MMMM DD, YYYY h:mm A')}</em>
                 </p>
               )}
             </Box>

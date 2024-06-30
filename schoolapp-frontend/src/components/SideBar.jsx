@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { sideBarLinks } from '@/constants';
@@ -35,17 +35,21 @@ const SideBar = () => {
   };
 
   const handleSearch = async () =>{
-    const search = { title, studentId: student?.id }
-    const pageData = await getPagesBySearch(search);
-    setPages(pageData);
+    console.log("QUERY: " + title);
+
+    if(title !== ''){
+      const search = { title, studentId: student?.id }
+      const pageData = await getPagesBySearch(search);
+      setPages(pageData);
+    }
+    else{
+      setPages([]);
+    }
   }
 
-  const handleSubmit = async (event) =>{
-    event.preventDefault();
-    const search = { title, studentId: student?.id }
-    const pageData = await getPagesBySearch(search);
-    setPages(pageData);
-  }
+  useEffect(()=>{
+    handleSearch();
+  }, [title]);
 
   return (
     <div className='hidden md:flex fixed top-0 left-0 h-full w-50 border-r border-blue-300'>
@@ -108,7 +112,7 @@ const SideBar = () => {
     },
   }}
 >
-  <DialogTitle>Search Pages</DialogTitle>
+  <DialogTitle>Search Notebook</DialogTitle>
   <DialogContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
     <DialogContentText>
@@ -126,8 +130,9 @@ const SideBar = () => {
       variant="outlined"
       value={title}
       onChange={(e) => {
+        console.log("E TARGETT VALUE: " + e.target.value)
         setTitle(e.target.value);
-        handleSearch();
+        // handleSearch();
       }}
     />
 
@@ -161,7 +166,7 @@ const SideBar = () => {
               </div>
               {mappedPage.timeUpdated && (
                 <p>
-                  Last Updated: {dayjs(mappedPage.timeUpdated).format('MMMM DD, YYYY h:mm A')}
+                  Last Updated: <em>{dayjs(mappedPage.timeUpdated).format('MMMM DD, YYYY h:mm A')}</em>
                 </p>
               )}
             </Box>
@@ -169,7 +174,12 @@ const SideBar = () => {
         ))}
       </div>
     ) : (
-      <img src="/assets/images/search.png" alt="settings" className='w-48 h-48' />
+      <div>
+        <img src="/assets/images/search.png" alt="settings" className='w-48 h-48 mt-11' />
+        <i className='ml-14 font-bold'>
+          No results.
+        </i>
+      </div>
     )}
 
     <br />
@@ -177,106 +187,7 @@ const SideBar = () => {
 
   </DialogContent>
 
-  <DialogActions>
-    <Button variant="contained" type="submit" color="primary">Search</Button>
-  </DialogActions>
-
 </Dialog>
-
-
-      {/* <Dialog
-        open={isOpen}
-        onClose={handleClose}
-        component="form" validate="true" onSubmit={handleSubmit}
-        disableScrollLock={true}
-        PaperProps={{
-          style: {
-            height: '80vh', // Set height
-            width: '95vw',  // Set width
-          },
-        }}
-      >
-        <DialogTitle>Search Pages</DialogTitle>
-        <DialogContent>
-
-            <DialogContentText>
-                Search for a page from one of your notebooks.
-            </DialogContentText>
-
-            <TextField
-                    autoFocus
-                    margin="dense"
-                    id="search"
-                    name="search"
-                    label="Search"
-                    type="search"
-                    fullWidth
-                    variant="outlined"
-                    value={title}
-                    // onChange={(e) => setTitle(e.target.value)}
-                    onChange={(e) => {
-                      setTitle(e.target.value);
-                      handleSearch();
-                    }}
-                />
-
-      {pages.length > 0 ? (
-        <div className="pages-container p-4 m-2 mb-10 border rounded">
-          {pages.map((mappedPage) => (
-            <div key={mappedPage.id} className="page-item">
-              <Box
-                className="page-item mx-4 mt-7 mb-7"
-                p={3}
-                boxShadow={3}
-                borderRadius={4}
-                bgcolor="background.paper"
-                display="flex"
-                alignItems="center"
-                justifyContent="space-between"
-                width={470}
-                minHeight={80}
-                onClick={()=>{
-                  setCourseFromId(mappedPage.courseId);
-                  router.push(`/page/${encodeURIComponent(mappedPage.id)}`);
-                  handleClose();
-                }}
-                // onMouseEnter={() => handleMouseEnter(page.id)}
-                // onMouseLeave={handleMouseLeave}
-                position="relative"
-                sx={{
-                  backgroundColor: 'background.paper', cursor: 'pointer'
-                }}
-              >
-
-                <div className="page-details">
-                  <h3 className="page-title font-bold">{mappedPage.title}</h3>
-                </div>
-                {mappedPage.timeUpdated && (
-                  <p>
-                    Last Updated: {dayjs(mappedPage.timeUpdated).format('MMMM DD, YYYY h:mm A')}
-                  </p>
-                )}
-              </Box>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <img src="/assets/images/search.png" alt="settings" className='w-48 h-48' />
-      )}
-
-            <br/>
-            <br/>
-
-        </DialogContent>
-
-        <DialogActions>
-            <Button variant="contained" type="submit" onSubmit={handleSubmit} color="primary">Search</Button>
-        </DialogActions>
-
-    </Dialog> */}
-
-
-
 
 
 

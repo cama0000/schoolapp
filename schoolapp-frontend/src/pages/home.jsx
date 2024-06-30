@@ -151,7 +151,7 @@ const Home = () => {
                 </div>
                 {task.deadline && (
                   <p className="task-due-date">
-                    {dayjs(task.deadline).format('MMMM DD, YYYY h:mm A')}
+                    <em>{dayjs(task.deadline).format('MMMM DD, YYYY h:mm A')}</em>
                   </p>
                 )}
               </Box>
@@ -213,7 +213,7 @@ const Home = () => {
                 </div>
                 {mappedPage.timeUpdated && (
                   <p>
-                    Last Updated: {dayjs(mappedPage.timeUpdated).format('MMMM DD, YYYY h:mm A')}
+                    Last Updated: <em>{dayjs(mappedPage.timeUpdated).format('MMMM DD, YYYY h:mm A')}</em>
                   </p>
                 )}
               </Box>
