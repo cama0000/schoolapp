@@ -56,16 +56,16 @@ const SideBar = () => {
   return (
     <div className='hidden md:flex fixed top-0 left-0 h-full w-50 border-r border-blue-300'>
       <div className='flex flex-col gap-11 bg-purple-500 pr-11 pl-5 py-5 h-full'>
-        <Link href="/" className="flex gap-3 items-center">
+        <Link href="/" className="flex gap-3 items-center font-bold text-white text-4xl">
           Wave
         </Link>
 
-        <div>
+        {/* <div>
           Profile Pic
-        </div>
+        </div> */}
 
         <div>
-          {student?.username}
+          <em>{student?.username}</em>
         </div>
 
         <ul className="flex flex-col gap-6">
@@ -86,12 +86,12 @@ const SideBar = () => {
             </li>
           ))}
           
-          <li className="flex items-center gap-3 mt-48" onClick={handleSettingsClick}>
+          {/* <li className="flex items-center gap-3 mt-48" onClick={handleSettingsClick}>
             <img src="/assets/images/settings.png" alt="settings" className='w-6 h-6' />
             <span className="text-white hover:text-black cursor-pointer">Settings</span>
-          </li>
+          </li> */}
 
-          <li className="flex items-center gap-9" onClick={handleLogoutClick}>
+          <li className="flex items-center mt-48 gap-9" onClick={handleLogoutClick}>
             <span className='ml-5 text-white hover:text-black cursor-pointer'>
               Logout
             </span>
