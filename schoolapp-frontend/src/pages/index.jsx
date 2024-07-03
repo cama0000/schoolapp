@@ -29,15 +29,15 @@ const index = () => {
                 Wave is your one-stop solution to studying and tracking deadlines.
             </span>
 
-            <img src="/assets/images/study1.png" alt="studying" className="w-64 h-auto mt-5"/>
+            {/* <img src="/assets/images/study1.png" alt="studying" className="w-64 h-auto mt-5"/>
 
             <span className="text-lg mb-5 block">
                 With Wave, you can do many things such as set up your courses and even log all
                 the tasks needed to be completed for each course. Need help studying? Well the built-in
                 pomodoro timer is there for you. Wave is your one-stop spot for academic success!
-            </span>
+            </span> */}
         </div>
-
+{/* 
         <span className="font-bold text-4xl mt-20 mb-5 text-center">
           Who is Wave For?
         </span>
@@ -48,7 +48,7 @@ const index = () => {
 
         <span className="font-bold text-4xl mt-20 mb-5 text-center">
           How Does it Work?
-        </span>
+        </span> */}
       </div>
 
       <Footer/>
