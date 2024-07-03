@@ -35,7 +35,7 @@ const SideBar = () => {
   };
 
   const handleSearch = async () =>{
-    console.log("QUERY: " + title);
+    console.log("SEARCH QUERY: " + title);
 
     if(title !== ''){
       const search = { title, studentId: student?.id }
@@ -48,7 +48,9 @@ const SideBar = () => {
   }
 
   useEffect(()=>{
-    handleSearch();
+    if(student){
+      handleSearch();
+    }
   }, [title]);
 
   return (
