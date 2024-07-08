@@ -19,8 +19,6 @@ This project is a platform designed to help students manage their coursework and
 - **ReactJS Frontend** - Utilized React for a clean and simple user interface and to manage states.
 - **Spring Boot Backend** - Utilized a RESTful API in order to manage tasks, courses and student information. Utilizes Spring Security for robust password encryption and API url protection.
 
-![Page](public/assets/images/studyApp.png "Course Page")
-
 <img width="1301" alt="Course Page" src="https://github.com/cama0000/schoolapp/blob/main/schoolapp-frontend/public/assets/images/studyApp.png">
 
 ## Run Locally
