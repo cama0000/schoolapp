@@ -31,7 +31,7 @@ This project is a platform designed to help students manage their coursework and
 4. Run `schoolappApiApplication`. It is now running on port 8080.
 
 **Frontend**
-1. Open the `schoolapp-frontend` folder in VSCode or a preffered text editor.
+1. Open the `schoolapp-frontend` folder in VSCode or a preferred text editor.
 2. Run `npm install` to install all dependencies.
 3. Run `npm run dev`.
 4. Visit `http://localhost:3000/`.
