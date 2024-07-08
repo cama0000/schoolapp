@@ -14,12 +14,12 @@ This project is a platform designed to help students manage their coursework and
 - **Rich Text Notepad**: Take detailed and formatted notes with the rich text editor allowing for several styles of text.
 - **Organized by Course**: Keep your notes organized with a separate notebook for each of your courses.
 
+<img width="1301" alt="Course Page" src="https://github.com/cama0000/schoolapp/blob/main/schoolapp-frontend/public/assets/images/studyApp.png">
+
 ## Technologies
 - **PostgreSQL Database** - For storing data related to user authentication and data related to coursework.
 - **ReactJS Frontend** - Utilized React for a clean and simple user interface and to manage states.
 - **Spring Boot Backend** - Utilized a RESTful API in order to manage tasks, courses and student information. Utilizes Spring Security for robust password encryption and API url protection.
-
-<img width="1301" alt="Course Page" src="https://github.com/cama0000/schoolapp/blob/main/schoolapp-frontend/public/assets/images/studyApp.png">
 
 ## Run Locally
 
