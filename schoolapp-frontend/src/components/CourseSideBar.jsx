@@ -1,6 +1,6 @@
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { toast } from 'react-toastify';
@@ -8,6 +8,7 @@ import { addPage, deletePage, getPagesByCourse } from '@/services/client';
 import dayjs from 'dayjs';
 import ArticleIcon from '@mui/icons-material/Article';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
 
 const CourseSideBar = () => {
   const router = useRouter();
@@ -18,16 +19,27 @@ const CourseSideBar = () => {
   const { page } = useAuth();
   const [hoveredPageId, setHoveredPageId] = useState(null);
 
-  useEffect(()=>{
-    if(course?.id){
-      fetchPages();
-    }
-  }, [course?.id])
+  // useEffect(()=>{
+  //   if(course?.id){
+  //     fetchPages();
+  //   }
+  // }, [course?.id])
 
-  const fetchPages = async () =>{
-    const pageData = await getPagesByCourse(course?.id);
-    setPages(pageData);
-  }
+  const fetchPages = useCallback(async () => {
+    if (course?.id) {
+      const pageData = await getPagesByCourse(course.id);
+      setPages(pageData);
+    }
+  }, [course?.id]);
+
+  useEffect(() => {
+    fetchPages();
+  }, [fetchPages]);
+
+  // const fetchPages = async () =>{
+  //   const pageData = await getPagesByCourse(course?.id);
+  //   setPages(pageData);
+  // }
 
   const handleOpen = () => {
     setOpen(true);

@@ -8,194 +8,383 @@ import { toast } from 'react-toastify';
 
 //TODO: add password validation, password checker colors, remove scrollbar
 
-const register = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+// const register = () => {
+//   const [firstName, setFirstName] = useState("");
+//   const [lastName, setLastName] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [username, setUsername] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [isPasswordEntered, setIsPasswordEntered] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
+//   const [isPasswordEntered, setIsPasswordEntered] = useState(false);
+//   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const [nameError, setNameError] = useState("");
-  const [lastNameError, setLastNameError] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+//   const [nameError, setNameError] = useState("");
+//   const [lastNameError, setLastNameError] = useState("");
+//   const [usernameError, setUsernameError] = useState("");
+//   const [emailError, setEmailError] = useState("");
+//   const [passwordError, setPasswordError] = useState("");
+//   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  const HOST_NAME = "http://localhost:8080/";
+//   const HOST_NAME = "http://localhost:8080/";
 
-  const { student, setStudentFromToken } = useAuth();
-  const router = useRouter();
+//   const { student, setStudentFromToken } = useAuth();
+//   const router = useRouter();
 
-  useEffect(() =>{
-    if(student){
-        router.push("/home");
+//   useEffect(() =>{
+//     if(student){
+//         router.push("/home");
+//     }
+//   })
+
+//   const handleChangeFirstName = (event) => {
+//     const val = event.target.value;
+
+//     setFirstName(val);
+
+//     if(val == ''){
+//         setNameError("First name must not be left blank.");
+//     }
+//     else{
+//         setNameError("");
+//     }
+//   }
+
+//   const handleChangeLastName = (event) => {
+//     const val = event.target.value;
+
+//     setLastName(val);
+
+//     if(val == ''){
+//         setLastNameError("Last name must not be left blank.");
+//     }
+//     else{
+//         setLastNameError("");
+//     }
+//   }
+
+//   const handleChangeUsername = (event) => {
+//     const val = event.target.value;
+//     setUsername(val);
+
+//     if(val === '') {
+//         setUsernameError("Username must not be left blank.");
+//     }
+//     else{
+//         axios.get(`${HOST_NAME}authorization/check-username/${val}`)
+//             .then(() => {
+//                 setUsernameError("");
+//             })
+//             .catch((res) => {
+//                 setUsernameError("Username is already taken.");
+//             })
+//     }
+//   }
+
+//   const handleChangeEmail = (event) => {
+//     const val = event.target.value;
+//     setEmail(val);
+
+//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+//     if(val === ''){
+//         setEmailError("Email must not be left blank.");
+//     }
+//     else if(!emailRegex.test(val)){
+//         setEmailError("Invalid email.")
+//     }
+//     else{
+//         axios.get(`${HOST_NAME}authorization/check-email/${val}`)
+//             .then(() => {
+//                 setEmailError("");
+//             })
+//             .catch((res) => {
+//                 setEmailError("Email is already taken.");
+//             });
+//     }
+//   };
+
+//   const handleChangePassword = (event) =>{
+//     const val = event.target.value;
+//     setPassword(val);
+
+//     if(val === ''){
+//         setIsPasswordEntered(false);
+//     }
+//     else{
+//         setIsPasswordEntered(true);
+//     }
+
+//     // recheck passwords when going back to change original password
+//     if(confirmPassword !== ""){
+//         if(confirmPassword !== val){
+//             setConfirmPasswordError("Passwords do not match.");
+//         }
+//         else{
+//             setConfirmPasswordError("");
+//         }
+//     }
+//   }
+
+//   const handleChangeConfirmPassword = (event) => {
+//     const val = event.target.value;
+//     setConfirmPassword(val);
+
+//     if(val !== password){
+//         setConfirmPasswordError("Passwords do not match.");
+//     }
+//     else{
+//         setConfirmPasswordError("");
+//     }
+// };
+
+//     const handleSubmit = (event) =>{
+//         event.preventDefault()
+//         // validate all fields
+
+//         if(firstName === '' || lastName === '' || email === '' || username === '' || password === '' || confirmPassword === ''){
+//             alert("Please fill out all blank fields.");
+//             return;
+//         }
+
+//         if(nameError !== "") {
+//             alert(nameError);
+//             return;
+//         }
+
+//         if(lastNameError !== "") {
+//             alert(lastNameError);
+//             return;
+//         }
+
+//         if(emailError !== "") {
+//             alert(emailError);
+//             return;
+//         }
+
+//         if(usernameError !== "") {
+//             alert(usernameError);
+//             return;
+//         }
+
+//         if(passwordError !== "") {
+//             alert(passwordError);
+//             return;
+//         }
+
+//         if(confirmPasswordError !== "") {
+//             alert(confirmPasswordError);
+//             return;
+//         }
+
+//         // type: registerRequest
+//         const user = { firstName, lastName, email, username, password }
+
+//         axios.post(`${HOST_NAME}authorization/register`, user)
+//             .then((res) =>{
+//                 toast.success("Registration successful!");
+
+//                 const token = res.data.token;
+//                 localStorage.setItem('access_token', token)
+//                 setStudentFromToken();
+
+//                 router.push("/home");
+//             })
+//             .catch((res) =>{
+//                 toast.error("Registration unsuccessful.");
+//                 console.log(res)
+//             })
+
+//     }
+
+const Register = () => {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+  
+    const [isPasswordEntered, setIsPasswordEntered] = useState(false);
+    const [passwordVisible, setPasswordVisible] = useState(false);
+  
+    const [nameError, setNameError] = useState("");
+    const [lastNameError, setLastNameError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  
+    const HOST_NAME = "http://localhost:8080/";
+  
+    const { student, setStudentFromToken } = useAuth();
+    const router = useRouter();
+  
+    useEffect(() =>{
+      if(student){
+          router.push("/home");
+      }
+    })
+  
+    const handleChangeFirstName = (event) => {
+      const val = event.target.value;
+  
+      setFirstName(val);
+  
+      if(val == ''){
+          setNameError("First name must not be left blank.");
+      }
+      else{
+          setNameError("");
+      }
     }
-  })
-
-  const handleChangeFirstName = (event) => {
-    const val = event.target.value;
-
-    setFirstName(val);
-
-    if(val == ''){
-        setNameError("First name must not be left blank.");
+  
+    const handleChangeLastName = (event) => {
+      const val = event.target.value;
+  
+      setLastName(val);
+  
+      if(val == ''){
+          setLastNameError("Last name must not be left blank.");
+      }
+      else{
+          setLastNameError("");
+      }
     }
-    else{
-        setNameError("");
+  
+    const handleChangeUsername = (event) => {
+      const val = event.target.value;
+      setUsername(val);
+  
+      if(val === '') {
+          setUsernameError("Username must not be left blank.");
+      }
+      else{
+          axios.get(`${HOST_NAME}authorization/check-username/${val}`)
+              .then(() => {
+                  setUsernameError("");
+              })
+              .catch((res) => {
+                  setUsernameError("Username is already taken.");
+              })
+      }
     }
-  }
-
-  const handleChangeLastName = (event) => {
-    const val = event.target.value;
-
-    setLastName(val);
-
-    if(val == ''){
-        setLastNameError("Last name must not be left blank.");
+  
+    const handleChangeEmail = (event) => {
+      const val = event.target.value;
+      setEmail(val);
+  
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+      if(val === ''){
+          setEmailError("Email must not be left blank.");
+      }
+      else if(!emailRegex.test(val)){
+          setEmailError("Invalid email.")
+      }
+      else{
+          axios.get(`${HOST_NAME}authorization/check-email/${val}`)
+              .then(() => {
+                  setEmailError("");
+              })
+              .catch((res) => {
+                  setEmailError("Email is already taken.");
+              });
+      }
+    };
+  
+    const handleChangePassword = (event) =>{
+      const val = event.target.value;
+      setPassword(val);
+  
+      if(val === ''){
+          setIsPasswordEntered(false);
+      }
+      else{
+          setIsPasswordEntered(true);
+      }
+  
+      // recheck passwords when going back to change original password
+      if(confirmPassword !== ""){
+          if(confirmPassword !== val){
+              setConfirmPasswordError("Passwords do not match.");
+          }
+          else{
+              setConfirmPasswordError("");
+          }
+      }
     }
-    else{
-        setLastNameError("");
-    }
-  }
-
-  const handleChangeUsername = (event) => {
-    const val = event.target.value;
-    setUsername(val);
-
-    if(val === '') {
-        setUsernameError("Username must not be left blank.");
-    }
-    else{
-        axios.get(`${HOST_NAME}authorization/check-username/${val}`)
-            .then(() => {
-                setUsernameError("");
-            })
-            .catch((res) => {
-                setUsernameError("Username is already taken.");
-            })
-    }
-  }
-
-  const handleChangeEmail = (event) => {
-    const val = event.target.value;
-    setEmail(val);
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if(val === ''){
-        setEmailError("Email must not be left blank.");
-    }
-    else if(!emailRegex.test(val)){
-        setEmailError("Invalid email.")
-    }
-    else{
-        axios.get(`${HOST_NAME}authorization/check-email/${val}`)
-            .then(() => {
-                setEmailError("");
-            })
-            .catch((res) => {
-                setEmailError("Email is already taken.");
-            });
-    }
+  
+    const handleChangeConfirmPassword = (event) => {
+      const val = event.target.value;
+      setConfirmPassword(val);
+  
+      if(val !== password){
+          setConfirmPasswordError("Passwords do not match.");
+      }
+      else{
+          setConfirmPasswordError("");
+      }
   };
-
-  const handleChangePassword = (event) =>{
-    const val = event.target.value;
-    setPassword(val);
-
-    if(val === ''){
-        setIsPasswordEntered(false);
-    }
-    else{
-        setIsPasswordEntered(true);
-    }
-
-    // recheck passwords when going back to change original password
-    if(confirmPassword !== ""){
-        if(confirmPassword !== val){
-            setConfirmPasswordError("Passwords do not match.");
-        }
-        else{
-            setConfirmPasswordError("");
-        }
-    }
-  }
-
-  const handleChangeConfirmPassword = (event) => {
-    const val = event.target.value;
-    setConfirmPassword(val);
-
-    if(val !== password){
-        setConfirmPasswordError("Passwords do not match.");
-    }
-    else{
-        setConfirmPasswordError("");
-    }
-};
-
-    const handleSubmit = (event) =>{
-        event.preventDefault()
-        // validate all fields
-
-        if(firstName === '' || lastName === '' || email === '' || username === '' || password === '' || confirmPassword === ''){
-            alert("Please fill out all blank fields.");
-            return;
-        }
-
-        if(nameError !== "") {
-            alert(nameError);
-            return;
-        }
-
-        if(lastNameError !== "") {
-            alert(lastNameError);
-            return;
-        }
-
-        if(emailError !== "") {
-            alert(emailError);
-            return;
-        }
-
-        if(usernameError !== "") {
-            alert(usernameError);
-            return;
-        }
-
-        if(passwordError !== "") {
-            alert(passwordError);
-            return;
-        }
-
-        if(confirmPasswordError !== "") {
-            alert(confirmPasswordError);
-            return;
-        }
-
-        // type: registerRequest
-        const user = { firstName, lastName, email, username, password }
-
-        axios.post(`${HOST_NAME}authorization/register`, user)
-            .then((res) =>{
-                toast.success("Registration successful!");
-
-                const token = res.data.token;
-                localStorage.setItem('access_token', token)
-                setStudentFromToken();
-
-                router.push("/home");
-            })
-            .catch((res) =>{
-                toast.error("Registration unsuccessful.");
-                console.log(res)
-            })
-
-    }
+  
+      const handleSubmit = (event) =>{
+          event.preventDefault()
+          // validate all fields
+  
+          if(firstName === '' || lastName === '' || email === '' || username === '' || password === '' || confirmPassword === ''){
+              alert("Please fill out all blank fields.");
+              return;
+          }
+  
+          if(nameError !== "") {
+              alert(nameError);
+              return;
+          }
+  
+          if(lastNameError !== "") {
+              alert(lastNameError);
+              return;
+          }
+  
+          if(emailError !== "") {
+              alert(emailError);
+              return;
+          }
+  
+          if(usernameError !== "") {
+              alert(usernameError);
+              return;
+          }
+  
+          if(passwordError !== "") {
+              alert(passwordError);
+              return;
+          }
+  
+          if(confirmPasswordError !== "") {
+              alert(confirmPasswordError);
+              return;
+          }
+  
+          // type: registerRequest
+          const user = { firstName, lastName, email, username, password }
+  
+          axios.post(`${HOST_NAME}authorization/register`, user)
+              .then((res) =>{
+                  toast.success("Registration successful!");
+  
+                  const token = res.data.token;
+                  localStorage.setItem('access_token', token)
+                  setStudentFromToken();
+  
+                  router.push("/home");
+              })
+              .catch((res) =>{
+                  toast.error("Registration unsuccessful.");
+                  console.log(res)
+              })
+  
+      }
 
   return (
     <div className='items-center flex justify-center'>
@@ -309,4 +498,4 @@ const register = () => {
   )
 }
 
-export default register
+export default Register

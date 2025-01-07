@@ -232,5 +232,7 @@ const InlineStyleControls = (props) => {
     );
 };
 
+RichTextEditor.displayName = 'RichTextEditor';
+
 export default RichTextEditor;
 

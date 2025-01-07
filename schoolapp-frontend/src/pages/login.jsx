@@ -5,69 +5,124 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 
-const login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+// const login = () => {
+//   const [username, setUsername] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [usernameError, setUsernameError] = useState("");
+//   const [passwordError, setPasswordError] = useState("");
+//   const [loading, setLoading] = useState(false);
+//   const [isError, setIsError] = useState(false);
 
-  const HOST_NAME = "http://localhost:8080/";
+//   const HOST_NAME = "http://localhost:8080/";
 
-  const { login, student } = useAuth();
-  const router = useRouter();
+//   const { login, student } = useAuth();
+//   const router = useRouter();
 
-  useEffect(()=>{
-    console.log("STUDENT: " + student)
-    if(student){
-        router.push("/home");
-    }
-  })
+//   useEffect(()=>{
+//     console.log("STUDENT: " + student)
+//     if(student){
+//         router.push("/home");
+//     }
+//   })
 
-  const handleChangeUsername = (event) => {
-    const val = event.target.value;
-    setUsername(val);
+//   const handleChangeUsername = (event) => {
+//     const val = event.target.value;
+//     setUsername(val);
 
-    if(val === '') {
-        setUsernameError("Username must not be left blank.");
-    }
-  }
+//     if(val === '') {
+//         setUsernameError("Username must not be left blank.");
+//     }
+//   }
 
-  const handleChangePassword = (event) =>{
-    const val = event.target.value;
-    setPassword(val);
+//   const handleChangePassword = (event) =>{
+//     const val = event.target.value;
+//     setPassword(val);
 
-    if(val === ''){
-        setPasswordError("Password must not be left blank.");
-    }
-  }
+//     if(val === ''){
+//         setPasswordError("Password must not be left blank.");
+//     }
+//   }
 
 
-  const handleSubmit = (event) =>{
-    event.preventDefault()
+//   const handleSubmit = (event) =>{
+//     event.preventDefault()
 
-    const usernamePassword = {username, password}
+//     const usernamePassword = {username, password}
 
-    login(usernamePassword)
-        .then(res => {
-            setIsError(false);
+//     login(usernamePassword)
+//         .then(res => {
+//             setIsError(false);
 
-            setTimeout(() => {
-                toast.success("Login successful!");
+//             setTimeout(() => {
+//                 toast.success("Login successful!");
                 
-                router.push("/home");
-            }, 500);
+//                 router.push("/home");
+//             }, 500);
 
-        }).catch(err => {
-            console.log("Login Error: " + err)
-            setIsError(true);
-            toast.error("Invalid username and/or password.");
-            // throw new Error("Login failed")
-        }).finally(() => {
-            setLoading(false);
+//         }).catch(err => {
+//             console.log("Login Error: " + err)
+//             setIsError(true);
+//             toast.error("Invalid username and/or password.");
+//             // throw new Error("Login failed")
+//         }).finally(() => {
+//             setLoading(false);
+//         })
+//   }
+
+const Login = () => {  // Changed from 'login' to 'Login'
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+  
+    const HOST_NAME = "http://localhost:8080/";
+  
+    const { login, student } = useAuth();
+    const router = useRouter();
+  
+    useEffect(() => {
+      console.log("STUDENT: " + student);
+      if (student) {
+        router.push("/home");
+      }
+    }, [student, router]);
+  
+    const handleChangeUsername = (event) => {
+      const val = event.target.value;
+      setUsername(val);
+      setUsernameError(val === '' ? "Username must not be left blank." : "");
+    };
+  
+    const handleChangePassword = (event) => {
+      const val = event.target.value;
+      setPassword(val);
+      setPasswordError(val === '' ? "Password must not be left blank." : "");
+    };
+  
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      const usernamePassword = { username, password };
+      setLoading(true); // Added for loading state management
+  
+      login(usernamePassword)
+        .then(() => {
+          setIsError(false);
+          setTimeout(() => {
+            toast.success("Login successful!");
+            router.push("/home");
+          }, 500);
         })
-  }
+        .catch((err) => {
+          console.error("Login Error:", err);
+          setIsError(true);
+          toast.error("Invalid username and/or password.");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
 
   return (
     <div className='items-center flex justify-center'>
@@ -134,4 +189,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login

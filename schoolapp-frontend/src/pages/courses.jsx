@@ -82,7 +82,7 @@ const Courses = () => {
   return (
     <div className="flex-1 flex flex-col items-center mt-12">
       <span className="text-6xl font-bold">
-        {student?.firstName}'s Courses
+        {student?.firstName}&apos;s Courses
       </span>
 
       <Button style={{ color: 'purple' }}>
