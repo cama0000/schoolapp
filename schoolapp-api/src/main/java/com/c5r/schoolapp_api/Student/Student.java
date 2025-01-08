@@ -3,6 +3,7 @@ package com.c5r.schoolapp_api.Student;
 import com.c5r.schoolapp_api.Course.Course;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -62,6 +63,7 @@ public class Student implements UserDetails {
     )
     private String password;
 
+    @Setter
     @Column(
             name = "PROFILE_IMAGE_URL",
             unique = true
@@ -78,6 +80,7 @@ public class Student implements UserDetails {
 //    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private Set<Course> courses;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -85,6 +88,18 @@ public class Student implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
+    @Override
+    public String getUsername() {
+        return username;  // Return the username field value
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+
 
     @Override
     public boolean isAccountNonExpired() {

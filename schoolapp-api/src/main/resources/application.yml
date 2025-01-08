@@ -16,10 +16,10 @@ management:
         include: "health,info"
 
 spring:
-  profiles:
-    active: local
-
   datasource:
+    url: jdbc:postgresql://localhost:50413/mydatabase
+    username: myuser
+    password: secret
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5

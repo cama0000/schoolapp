@@ -45,9 +45,12 @@ public class AuthenticationService {
         // return token
         var jwtToken = jwtService.generateToken(student);
 
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+//        return AuthenticationResponse.builder()
+//                .token(jwtToken)
+//                .build();
+
+        return new AuthenticationResponse(jwtToken);
+
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
@@ -70,9 +73,12 @@ public class AuthenticationService {
 
         // return token
         var jwtToken = jwtService.generateToken(student);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+//        return AuthenticationResponse.builder()
+//                .token(jwtToken)
+//                .build();
+
+        return new AuthenticationResponse(jwtToken);
+
     }
 
 
