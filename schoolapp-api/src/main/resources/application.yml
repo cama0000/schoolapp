@@ -18,6 +18,7 @@ management:
 spring:
   datasource:
     url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
     username: ${USERNAME}
     password: ${PASSWORD}
     hikari:
