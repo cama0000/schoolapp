@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const HOST_NAME = "http://localhost:8080/";
-
 // include for all authorized endpoint calls
 const getAuthConfig = () => ({
     headers: {
@@ -25,7 +23,7 @@ const getAuthConfig = () => ({
 export const login = async (usernamePassword) => {
     try{
         return await axios.post(
-            `${HOST_NAME}authorization/authenticate`, usernamePassword
+            `${process.env.NEXT_PUBLIC_HOST_NAME}authorization/authenticate`, usernamePassword
         )
     }catch(err){
         console.log("LOGIN CLIENT ERROR: " + err)
@@ -35,7 +33,7 @@ export const login = async (usernamePassword) => {
 
 export const getStudentFromUsername = async (username) => {
     try {
-        const response = await axios.get(`${HOST_NAME}student/getStudentFromUsername/${username}`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}student/getStudentFromUsername/${username}`)
         return response.data;
     } catch (err) {
         console.log("GETSTUDENT CLIENT ERROR: " + err);
@@ -45,7 +43,7 @@ export const getStudentFromUsername = async (username) => {
 
 export const addCourse = async (course) => {
     try {
-        const response = await axios.post(`${HOST_NAME}course/add`, course,
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST_NAME}course/add`, course,
             getAuthConfig());
 
         return response.data;
@@ -57,7 +55,7 @@ export const addCourse = async (course) => {
 
 export const deleteCourse = async (courseId) => {
     try {
-        const response = await axios.delete(`${HOST_NAME}course/delete/${courseId}`,
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_HOST_NAME}course/delete/${courseId}`,
             getAuthConfig());
 
         return response.data;
@@ -69,7 +67,7 @@ export const deleteCourse = async (courseId) => {
 
 export const getStudentCourses = async (studentId) => {
     try {
-        const response = await axios.get(`${HOST_NAME}student/getStudentCourses/${studentId}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}student/getStudentCourses/${studentId}`,
             getAuthConfig());
             
         return response.data;
@@ -81,7 +79,7 @@ export const getStudentCourses = async (studentId) => {
 
 export const getCourse = async (courseId) => {
     try {
-        const response = await axios.get(`${HOST_NAME}course/getCourse/${courseId}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}course/getCourse/${courseId}`,
             getAuthConfig());
 
         return response.data;
@@ -93,7 +91,7 @@ export const getCourse = async (courseId) => {
 
 export const addTask = async (task) => {
     try {
-        const response = await axios.post(`${HOST_NAME}task/add`, task,
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST_NAME}task/add`, task,
             getAuthConfig());
 
         return response.data;
@@ -108,7 +106,7 @@ export const getTasksByCourse = async (courseId) => {
         const options = Intl.DateTimeFormat().resolvedOptions();
         const timezone = options.timeZone;
 
-        const response = await axios.get(`${HOST_NAME}course/getTasksByCourse/${courseId}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}course/getTasksByCourse/${courseId}`,
             {headers: {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
                 'timezone': timezone
@@ -126,7 +124,7 @@ export const getTasksByStudent = async (studentId) => {
         const options = Intl.DateTimeFormat().resolvedOptions();
         const timezone = options.timeZone;
 
-        const response = await axios.get(`${HOST_NAME}student/getStudentTasks/${studentId}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}student/getStudentTasks/${studentId}`,
             {headers: {
                 Authorization: `Bearer ${localStorage.getItem("access_token")}`,
                 'timezone': timezone
@@ -141,7 +139,7 @@ export const getTasksByStudent = async (studentId) => {
 
 export const deleteTask = async (taskId) => {
     try {
-        const response = await axios.delete(`${HOST_NAME}task/delete/${taskId}`,
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_HOST_NAME}task/delete/${taskId}`,
             getAuthConfig());
 
         return response.data;
@@ -153,7 +151,7 @@ export const deleteTask = async (taskId) => {
 
 export const markCompleted = async (task) => {
     try {
-        const response = await axios.put(`${HOST_NAME}task/markCompleted`, task,
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_HOST_NAME}task/markCompleted`, task,
             getAuthConfig());
 
         return response.data;
@@ -168,7 +166,7 @@ export const getPagesByCourse = async (courseId) => {
         // const options = Intl.DateTimeFormat().resolvedOptions();
         // const timezone = options.timeZone;
 
-        const response = await axios.get(`${HOST_NAME}page/getPagesByCourse/${courseId}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}page/getPagesByCourse/${courseId}`,
             getAuthConfig());
             
         return response.data;
@@ -180,7 +178,7 @@ export const getPagesByCourse = async (courseId) => {
 
 export const addPage = async (page) => {
     try {
-        const response = await axios.post(`${HOST_NAME}page/add`, page,
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST_NAME}page/add`, page,
             getAuthConfig());
 
         return response.data;
@@ -192,7 +190,7 @@ export const addPage = async (page) => {
 
 export const getPage = async (pageId) => {
     try {
-        const response = await axios.get(`${HOST_NAME}page/getPage/${pageId}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}page/getPage/${pageId}`,
             getAuthConfig());
 
         return response.data;
@@ -206,7 +204,7 @@ export const savePageContent = async (pageId, rawContent) => {
     try {
         console.log("THE REALL ONE ID IS : " + pageId);
         console.log("THE RAW CONTENT IS : " + rawContent);
-        const response = await axios.put(`${HOST_NAME}page/savePageContent/${pageId}`, 
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_HOST_NAME}page/savePageContent/${pageId}`, 
             { content: rawContent },
             getAuthConfig());
 
@@ -219,7 +217,7 @@ export const savePageContent = async (pageId, rawContent) => {
 
 export const loadPageContent = async (pageId) => {
     try {
-        const response = await axios.get(`${HOST_NAME}page/loadPageContent/${pageId}`, 
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}page/loadPageContent/${pageId}`, 
             getAuthConfig());
 
         return response.data;
@@ -231,7 +229,7 @@ export const loadPageContent = async (pageId) => {
 
 export const deletePage = async (pageId) => {
     try {
-        const response = await axios.delete(`${HOST_NAME}page/delete/${pageId}`,
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_HOST_NAME}page/delete/${pageId}`,
             getAuthConfig());
 
         return response.data;
@@ -246,7 +244,7 @@ export const getPagesByStudent = async (studentId) => {
         // const options = Intl.DateTimeFormat().resolvedOptions();
         // const timezone = options.timeZone;
 
-        const response = await axios.get(`${HOST_NAME}page/getPagesByStudent/${studentId}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_HOST_NAME}page/getPagesByStudent/${studentId}`,
             getAuthConfig());
             
         return response.data;
@@ -261,7 +259,7 @@ export const getPagesBySearch = async (search) => {
         // const options = Intl.DateTimeFormat().resolvedOptions();
         // const timezone = options.timeZone;
 
-        const response = await axios.post(`${HOST_NAME}page/getPagesBySearch`, search, 
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST_NAME}page/getPagesBySearch`, search, 
             getAuthConfig());
             
         return response.data;
