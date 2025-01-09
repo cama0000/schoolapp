@@ -1,3 +1,4 @@
+Try it out: https://schoolapp-zeta.vercel.app/
 
 # Study App
 
@@ -26,7 +27,7 @@ This project is a platform designed to help students manage their coursework and
 **Backend**
 1. Clone the repository into a folder of your choosing. 
 - Ex: `git clone https://github.com/cama0000/schoolapp.git`
-2. Open the `schoolapp-api` folder in IntelliJ or a preffered text editor.
+2. Open the `schoolapp-api` folder in IntelliJ or a preferred text editor.
 3. Set up credentials in `src/main/resources/application.yml` and set up Docker to run the database.
 4. Run `schoolappApiApplication`. It is now running on port 8080.
 
