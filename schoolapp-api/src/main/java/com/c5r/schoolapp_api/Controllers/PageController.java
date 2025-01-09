@@ -16,7 +16,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/page")
-@CrossOrigin(origins = "http://localhost:3000")
 public class PageController {
     @Autowired
     private PageService pageService;

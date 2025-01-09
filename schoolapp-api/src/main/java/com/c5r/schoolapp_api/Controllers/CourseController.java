@@ -17,7 +17,6 @@ import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
 
 @RestController
 @RequestMapping("/course")
-@CrossOrigin(origins = "http://localhost:3000")
 public class CourseController {
     @Autowired
     private CourseService courseService;
