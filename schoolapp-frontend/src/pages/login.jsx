@@ -179,7 +179,7 @@ const Login = () => {
         </Button>
 
         <Typography variant="body2" sx={{ color: 'rgba(107, 33, 168, 0.6)', mt: 2 }}>
-          Don't have an account?{' '}
+          {"Don't have an account? "}
           <Link href="/register" className="text-purple-700 hover:text-purple-900 font-medium">
             Register now
           </Link>
