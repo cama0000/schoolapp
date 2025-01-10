@@ -1,9 +1,10 @@
 import { useAuth } from '@/context/AuthContext';
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import Head from 'next/head'
+import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 const Register = () => {
@@ -194,115 +195,170 @@ const Register = () => {
       }
 
   return (
-    <div className='items-center flex justify-center'>
-        <Head>
-            <title>
-                Register
-            </title>
-        </Head>
+    <div className='min-h-screen flex flex-col bg-gradient-to-b from-purple-50 via-white to-purple-50'>
+      <Head>
+        <title>Register - Prism</title>
+      </Head>
 
-        <Box component="form" validate="true" sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '500px',
-            minWidth: '500px',
-            maxWidth: '500px',
-            height: '500px',
-            minHeight: '500px',
-            maxHeight: '500px',
-            overflowY: 'auto',
-            padding: 4,
-            backgroundColor: '#fff',
-            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            zIndex: 2,
-            border: '3px solid #AA61E2',
-            borderStyle: 'border-radius: 20px',
-            transition: 'border 1s ease-in-out, border-image 1s ease-in-out',
-        }}>
-            <Typography component="h1" variant="h4" sx={{ marginBottom:'30px'}}>Register</Typography>
+      <Box 
+        component="form" 
+        validate="true" 
+        sx={{
+          width: '100%',
+          maxWidth: '550px',
+          margin: 'auto',
+          padding: '3rem',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(20px)',
+          borderRadius: '24px',
+          boxShadow: '0 20px 50px rgba(107, 33, 168, 0.1)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '1.5rem',
+          border: '1px solid rgba(107, 33, 168, 0.1)',
+          transition: 'all 0.3s ease-in-out',
+          '&:hover': {
+            boxShadow: '0 25px 60px rgba(107, 33, 168, 0.15)',
+          }
+        }}
+      >
+        <Typography 
+          component="h1" 
+          className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-900"
+          sx={{ 
+            fontSize: '2.5rem',
+            fontWeight: 'bold',
+            marginBottom: '1rem'
+          }}
+        >
+          Create Account
+        </Typography>
 
-                <TextField
-                    label="First Name"
-                    autoComplete="given-name"
-                    id="firstName"
-                    name="firstName"
-                    fullWidth
-                    error={nameError !== ""}
-                    helperText={nameError !== "" ? nameError : ""}
-                    onChange={handleChangeFirstName}
-                    sx={{ mb: 2 }}
-                />
+        <div className="grid grid-cols-2 gap-4 w-full">
+          <TextField
+            label="First Name"
+            autoComplete="given-name"
+            id="firstName"
+            name="firstName"
+            fullWidth
+            error={nameError !== ""}
+            helperText={nameError !== "" ? nameError : ""}
+            onChange={handleChangeFirstName}
+            sx={textFieldStyles}
+          />
 
-                <TextField
-                    label="Last Name"
-                    autoComplete="last-name"
-                    id="lastName"
-                    name="lastName"
-                    fullWidth
-                    error={lastNameError !== ""}
-                    helperText={lastNameError !== "" ? lastNameError : ""}
-                    onChange={handleChangeLastName}
-                    sx={{ mb: 2 }}
-                />
+          <TextField
+            label="Last Name"
+            autoComplete="family-name"
+            id="lastName"
+            name="lastName"
+            fullWidth
+            error={lastNameError !== ""}
+            helperText={lastNameError !== "" ? lastNameError : ""}
+            onChange={handleChangeLastName}
+            sx={textFieldStyles}
+          />
+        </div>
 
-                <TextField
-                    label="Email"
-                    autoComplete="email"
-                    id="email"
-                    name="email"
-                    fullWidth
-                    error={emailError !== ""}
-                    helperText={emailError !== "" ? emailError : ""}
-                    onChange={handleChangeEmail}
-                    sx={{ mb: 1 }}
-                />
+        <TextField
+          label="Email"
+          autoComplete="email"
+          id="email"
+          name="email"
+          fullWidth
+          error={emailError !== ""}
+          helperText={emailError !== "" ? emailError : ""}
+          onChange={handleChangeEmail}
+          sx={textFieldStyles}
+        />
 
-                <TextField
-                    label="Username"
-                    id="username"
-                    name="username"
-                    fullWidth
-                    error={usernameError !== ""}
-                    helperText={usernameError !== "" ? usernameError : ""}
-                    onChange={handleChangeUsername}
-                    sx={{ mb: 2 }}
-                />
+        <TextField
+          label="Username"
+          id="username"
+          name="username"
+          fullWidth
+          error={usernameError !== ""}
+          helperText={usernameError !== "" ? usernameError : ""}
+          onChange={handleChangeUsername}
+          sx={textFieldStyles}
+        />
 
-                <TextField
-                    type= "password" 
-                    label="Password"
-                    id="password"
-                    name="password"
-                    fullWidth
-                    error={passwordError !== ""}
-                    onChange={handleChangePassword}
-                    sx={{ mb: 2 }}
-                />
+        <TextField
+          type="password"
+          label="Password"
+          id="password"
+          name="password"
+          fullWidth
+          error={passwordError !== ""}
+          helperText={passwordError !== "" ? passwordError : ""}
+          onChange={handleChangePassword}
+          sx={textFieldStyles}
+        />
 
-                <TextField
-                    type="password"
-                    label="Confirm Password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    fullWidth
-                    error={confirmPasswordError !== ""}
-                    helperText={confirmPasswordError !== "" ? confirmPasswordError : ""}
-                    onChange={handleChangeConfirmPassword}
-                    sx={{ mb: 2 }}
-                />
+        <TextField
+          type="password"
+          label="Confirm Password"
+          id="confirmPassword"
+          name="confirmPassword"
+          fullWidth
+          error={confirmPasswordError !== ""}
+          helperText={confirmPasswordError !== "" ? confirmPasswordError : ""}
+          onChange={handleChangeConfirmPassword}
+          sx={textFieldStyles}
+        />
 
-                <Button variant='contained' onClick={handleSubmit} sx={{ marginTop:'20px'}}>
-                    Register
-                </Button>
-            <br/>
-        </Box>
+        <Button 
+          variant='contained' 
+          onClick={handleSubmit}
+          sx={{ 
+            mt: 2,
+            width: '100%',
+            py: 1.5,
+            bgcolor: '#6B21A8',
+            borderRadius: '9999px',
+            textTransform: 'none',
+            fontSize: '1.1rem',
+            fontWeight: 500,
+            boxShadow: '0 4px 14px 0 rgba(107, 33, 168, 0.39)',
+            '&:hover': {
+              bgcolor: '#581c87',
+              transform: 'translateY(-2px)',
+              boxShadow: '0 6px 20px 0 rgba(107, 33, 168, 0.39)',
+            },
+            transition: 'all 0.2s ease-in-out',
+          }}
+        >
+          Create Account
+        </Button>
+
+        <Typography variant="body2" sx={{ color: 'rgba(107, 33, 168, 0.6)', mt: 2 }}>
+          Already have an account?{' '}
+          <Link href="/login" className="text-purple-700 hover:text-purple-900 font-medium">
+            Sign in
+          </Link>
+        </Typography>
+      </Box>
     </div>
-  )
+  );
 }
 
-export default Register
+// Common styles for text fields
+const textFieldStyles = {
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgba(107, 33, 168, 0.2)',
+    },
+    '&:hover fieldset': {
+      borderColor: 'rgba(107, 33, 168, 0.3)',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: 'rgba(107, 33, 168, 0.5)',
+    },
+  },
+  '& .MuiInputLabel-root.Mui-focused': {
+    color: 'rgba(107, 33, 168, 0.8)',
+  },
+};
+
+export default Register;

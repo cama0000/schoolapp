@@ -1,9 +1,9 @@
 import ProtectedRoutes from '@/components/ProtectedRoutes';
 import { useAuth } from '@/context/AuthContext';
-import { addTask, deleteTask, getCourse, getTasksByCourse, markCompleted } from '@/services/client';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
+import { addTask, deleteTask, getCourse, getTasksByCourse, markCompleted, getPagesByCourse, deletePage, addPage } from '@/services/client';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import ArticleIcon from '@mui/icons-material/Article';
 
 const CoursePage = () => {
   const router = useRouter();
@@ -26,6 +27,10 @@ const CoursePage = () => {
   const [deadline, setDeadline] = useState(null);
   const [hoveredTaskId, setHoveredTaskId] = useState(null);
   const { setCourseFromId, setPageFromId } = useAuth();
+  const [pages, setPages] = useState([]);
+  const [hoveredPageId, setHoveredPageId] = useState(null);
+  const [isPageDialogOpen, setPageDialogOpen] = useState(false);
+  const [pageTitle, setPageTitle] = useState('');
 
   useEffect(() => {
     if(course) {
@@ -111,6 +116,50 @@ const CoursePage = () => {
     toast.success("Task complete!");
   }
 
+  const fetchPages = useCallback(async () => {
+    if (selectedCourse?.id) {
+      const pageData = await getPagesByCourse(selectedCourse.id);
+      setPages(pageData);
+    }
+  }, [selectedCourse?.id]);
+
+  useEffect(() => {
+    fetchPages();
+  }, [fetchPages]);
+
+  const handleDeletePage = async (pageId) => {
+    await deletePage(pageId);
+    fetchPages();
+    toast.success("Page removed successfully!");
+  }
+
+  const handlePageDialogOpen = () => {
+    setPageDialogOpen(true);
+  };
+
+  const handlePageDialogClose = () => {
+    setPageTitle('');
+    setPageDialogOpen(false);
+  };
+
+  const handleCreatePage = async (event) => {
+    event.preventDefault();
+
+    const page = { 
+      title: pageTitle, 
+      content: "", 
+      timeCreated: dayjs(), 
+      timeUpdated: dayjs(), 
+      courseId: selectedCourse?.id, 
+      studentId: student?.id
+    };
+
+    await addPage(page);
+    fetchPages();
+    handlePageDialogClose();
+    toast.success("Page created successfully!");
+  };
+
   if (!selectedCourse) return <div>Loading...</div>;
 
   return (
@@ -119,6 +168,61 @@ const CoursePage = () => {
       <span className="text-6xl font-bold">
         {selectedCourse.courseName}
       </span>
+
+      <div className='w-full max-w-4xl p-8'>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-purple-900">Notebook</h2>
+          <Button 
+            onClick={handlePageDialogOpen}
+            variant="contained"
+            style={{ backgroundColor: '#6B21A8' }}
+            startIcon={<AddBoxIcon />}
+            className="!rounded-full !px-6"
+          >
+            New Page
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {pages?.length > 0 ? (
+            pages.map((page) => (
+              <div
+                key={page.id}
+                className="relative group bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
+                onMouseEnter={() => setHoveredPageId(page.id)}
+                onMouseLeave={() => setHoveredPageId(null)}
+                onClick={() => router.push(`/page/${encodeURIComponent(page.id)}`)}
+              >
+                <div className="flex items-center gap-3">
+                  <ArticleIcon className="text-purple-600" />
+                  <div className="flex-grow">
+                    <h3 className="font-semibold text-purple-900 truncate">
+                      {page.title}
+                    </h3>
+                    <p className="text-sm text-purple-600">
+                      Last updated: {dayjs(page.timeUpdated).format('MMM DD, YYYY')}
+                    </p>
+                  </div>
+                  
+                  {hoveredPageId === page.id && (
+                    <DeleteOutlineIcon
+                      className="text-red-500 hover:text-red-700 transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeletePage(page.id);
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-2 text-center py-12 bg-purple-50 rounded-xl">
+              <p className="text-purple-600">No pages yet. Create one to get started!</p>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* <span className="text-xl mt-8">
         Here are your tasks.
@@ -273,6 +377,74 @@ const CoursePage = () => {
 
     </Dialog>
     </LocalizationProvider>
+
+    {/* New Page Dialog */}
+    <Dialog
+      open={isPageDialogOpen}
+      onClose={handlePageDialogClose}
+      component="form"
+      onSubmit={handleCreatePage}
+      PaperProps={{
+        sx: {
+          borderRadius: '16px',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        },
+      }}
+    >
+      <DialogTitle>
+        <Typography variant="h5" className="font-bold text-purple-900">
+          Add Page
+        </Typography>
+      </DialogTitle>
+
+      <DialogContent>
+        <DialogContentText className="mb-4">
+          Add a page to your notebook.
+        </DialogContentText>
+
+        <TextField
+          autoFocus
+          required
+          margin="dense"
+          id="title"
+          name="title"
+          label="Title"
+          type="string"
+          fullWidth
+          variant="outlined"
+          value={pageTitle}
+          onChange={(e) => setPageTitle(e.target.value)}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '12px',
+            },
+          }}
+        />
+      </DialogContent>
+
+      <DialogActions sx={{ padding: '16px 24px' }}>
+        <Button 
+          onClick={handlePageDialogClose}
+          sx={{ 
+            color: 'red',
+            '&:hover': { backgroundColor: 'rgba(255, 0, 0, 0.04)' }
+          }}
+        >
+          Cancel
+        </Button>
+        <Button 
+          variant="contained" 
+          type="submit"
+          sx={{ 
+            bgcolor: '#6B21A8',
+            borderRadius: '9999px',
+            '&:hover': { bgcolor: '#581c87' }
+          }}
+        >
+          Create Page
+        </Button>
+      </DialogActions>
+    </Dialog>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import 'draft-js/dist/Draft.css';
 import RichTextEditor from '@/components/RichTextEditor';
 import { Button } from '@mui/material';
 import dayjs from 'dayjs';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const NotebookPage = () => {
     const router = useRouter();
@@ -79,9 +80,25 @@ const NotebookPage = () => {
 
     return (
       <div className="mt-12 w-full flex flex-col">
-        <div className='ml-32 mt-0'>
-          {course?.courseName} / {page?.title}
+        <div className='flex items-center justify-between mx-32 mb-6'>
+          <div className='flex items-center gap-2 text-purple-600'>
+            <Button
+              onClick={() => router.push(`/courses/${course?.id}`)}
+              startIcon={<ArrowBackIcon />}
+              className="!normal-case !text-purple-600 hover:!bg-purple-50"
+              sx={{ 
+                borderRadius: '9999px',
+                transition: 'all 0.2s ease-in-out',
+                '&:hover': {
+                  transform: 'translateX(-4px)',
+                }
+              }}
+            >
+              Back to {course?.courseName}
+            </Button>
+          </div>
         </div>
+
         <div className="flex justify-between items-center">
             <span className="text-5xl font-bold ml-32">{page?.title}</span>
             {/* <Button className="mr-32 p-2 bg-purple-500 text-white rounded" onClick={handleSave} disabled={saving}>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { sideBarLinks } from '@/constants';
 import { useAuth } from '@/context/AuthContext';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import { toast } from 'react-toastify';
 import { getPagesBySearch } from '@/services/client';
 import dayjs from 'dayjs';
@@ -54,145 +54,150 @@ const SideBar = () => {
   }, [title]);
 
   return (
-    <div className='hidden md:flex fixed top-0 left-0 h-full w-50 border-r border-blue-300'>
-      <div className='flex flex-col gap-11 bg-purple-500 pr-11 pl-5 py-5 h-full'>
-        <Link href="/" className="flex gap-3 items-center font-bold text-white text-4xl">
-          Wave
+    <div className='hidden md:flex fixed top-0 left-0 h-full'>
+      <div className='w-72 bg-white border-r border-purple-100 shadow-lg flex flex-col h-full'>
+        {/* Logo Section */}
+        <Link href="/" className="p-6 border-b border-purple-100">
+          <span className="font-display text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-900">
+            Prism
+          </span>
         </Link>
 
-        {/* <div>
-          Profile Pic
-        </div> */}
-
-        <div>
-          <em>{student?.username}</em>
+        {/* User Profile Section */}
+        <div className="px-6 py-4 border-b border-purple-100">
+          <Typography variant="subtitle1" className="text-purple-900 font-medium">
+            Welcome,
+          </Typography>
+          <Typography variant="h6" className="text-purple-700 font-bold truncate">
+            {student?.username}
+          </Typography>
         </div>
 
-        <ul className="flex flex-col gap-6">
-          {sideBarLinks.map((link) => (
-            <li key={link.id}>
-              { link.id !== 2 ? (
-                <Link href={link.href} className="flex items-center gap-3">
-                  <img src={link.imgURL} alt={link.label} className='w-6 h-6' />
-                  <span className="text-white hover:text-black cursor-pointer">{link.label}</span>
-              </Link>
-              ) : (
-                <div className="flex items-center gap-3 cursor-pointer" onClick={handleOpen}>
-                  <img src={link.imgURL} alt={link.label} className='w-6 h-6' />
-                  <span className="text-white hover:text-black cursor-pointer">{link.label}</span>
-                </div>
-              )}
-              
-            </li>
-          ))}
-          
-          {/* <li className="flex items-center gap-3 mt-48" onClick={handleSettingsClick}>
-            <img src="/assets/images/settings.png" alt="settings" className='w-6 h-6' />
-            <span className="text-white hover:text-black cursor-pointer">Settings</span>
-          </li> */}
+        {/* Navigation Links */}
+        <nav className="flex-grow px-3 py-6">
+          <ul className="space-y-2">
+            {sideBarLinks.map((link) => (
+              <li key={link.id}>
+                {link.id !== 2 ? (
+                  <Link 
+                    href={link.href} 
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
+                              ${router.pathname === link.href 
+                                ? 'bg-purple-100 text-purple-900' 
+                                : 'text-gray-600 hover:bg-purple-50 hover:text-purple-900'}`}
+                  >
+                    <img src={link.imgURL} alt={link.label} className='w-5 h-5 opacity-75' />
+                    <span className="font-medium">{link.label}</span>
+                  </Link>
+                ) : (
+                  <button
+                    onClick={handleOpen}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
+                             text-gray-600 hover:bg-purple-50 hover:text-purple-900"
+                  >
+                    <img src={link.imgURL} alt={link.label} className='w-5 h-5 opacity-75' />
+                    <span className="font-medium">{link.label}</span>
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-          <li className="flex items-center mt-48 gap-9" onClick={handleLogoutClick}>
-            <span className='ml-5 text-white hover:text-black cursor-pointer'>
-              Logout
-            </span>
-          </li>
-        </ul>
+        {/* Logout Section */}
+        <div className="p-6 border-t border-purple-100">
+          <button
+            onClick={handleLogoutClick}
+            className="w-full px-4 py-2 text-purple-600 font-medium rounded-lg
+                     hover:bg-purple-50 transition-colors duration-200"
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
-
+      {/* Search Dialog */}
       <Dialog
-  open={isOpen}
-  onClose={handleClose}
-  component="form"
-  validate="true"
-  onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}
-  disableScrollLock={true}
-  PaperProps={{
-    style: {
-      height: '80vh', // Set height
-      width: '95vw',  // Set width
-    },
-  }}
->
-  <DialogTitle>Search Notebook</DialogTitle>
-  <DialogContent style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        open={isOpen}
+        onClose={handleClose}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: '16px',
+            bgcolor: 'background.paper',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          },
+        }}
+      >
+        <DialogTitle>
+          <Typography variant="h5" className="font-bold text-purple-900">
+            Search Notebook
+          </Typography>
+        </DialogTitle>
+        
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Search"
+            type="search"
+            fullWidth
+            variant="outlined"
+            value={title || ''}
+            onChange={(e) => setTitle(e.target.value)}
+            sx={{
+              mt: 2,
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '12px',
+              },
+            }}
+          />
 
-    <DialogContentText>
-      Search for a page from one of your notebooks.
-    </DialogContentText>
-
-    <TextField
-      autoFocus
-      margin="dense"
-      id="search"
-      name="search"
-      label="Search"
-      type="search"
-      fullWidth
-      variant="outlined"
-      value={title}
-      onChange={(e) => {
-        console.log("E TARGETT VALUE: " + e.target.value)
-        setTitle(e.target.value);
-        // handleSearch();
-      }}
-    />
-
-    {pages.length > 0 ? (
-      <div className="pages-container p-4 m-2 mb-10 border rounded">
-        {pages.map((mappedPage) => (
-          <div key={mappedPage.id} className="page-item">
-            <Box
-              className="page-item mx-4 mt-7 mb-7"
-              p={3}
-              boxShadow={3}
-              borderRadius={4}
-              bgcolor="background.paper"
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              width={470}
-              minHeight={80}
-              onClick={()=>{
-                setCourseFromId(mappedPage.courseId);
-                router.push(`/page/${encodeURIComponent(mappedPage.id)}`);
-                handleClose();
-              }}
-              position="relative"
-              sx={{
-                backgroundColor: 'background.paper', cursor: 'pointer'
-              }}
-            >
-              <div className="page-details">
-                <h3 className="page-title font-bold">{mappedPage.title}</h3>
-              </div>
-              {mappedPage.timeUpdated && (
-                <p>
-                  Last Updated: <em>{dayjs(mappedPage.timeUpdated).format('MMMM DD, YYYY h:mm A')}</em>
-                </p>
-              )}
-            </Box>
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div>
-        <img src="/assets/images/search.png" alt="settings" className='w-48 h-48 mt-11' />
-        <i className='ml-14 font-bold'>
-          No results.
-        </i>
-      </div>
-    )}
-
-    <br />
-    <br />
-
-  </DialogContent>
-
-</Dialog>
-
-
-
+          {pages.length > 0 ? (
+            <div className="mt-6 space-y-4">
+              {pages.map((page) => (
+                <Box
+                  key={page.id}
+                  onClick={() => {
+                    setCourseFromId(page.courseId);
+                    router.push(`/page/${encodeURIComponent(page.id)}`);
+                    handleClose();
+                  }}
+                  sx={{
+                    p: 3,
+                    borderRadius: 3,
+                    cursor: 'pointer',
+                    bgcolor: 'white',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    '&:hover': {
+                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                      transform: 'translateY(-2px)',
+                    },
+                    transition: 'all 0.2s ease-in-out',
+                  }}
+                >
+                  <Typography variant="h6" className="font-bold text-purple-900">
+                    {page.title}
+                  </Typography>
+                  {page.timeUpdated && (
+                    <Typography variant="body2" className="text-purple-600 mt-1">
+                      Last Updated: {dayjs(page.timeUpdated).format('MMMM DD, YYYY h:mm A')}
+                    </Typography>
+                  )}
+                </Box>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <img src="/assets/images/search.png" alt="No results" className="w-32 h-32 mx-auto mb-4 opacity-50" />
+              <Typography variant="body1" className="text-purple-600 font-medium">
+                No results found
+              </Typography>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

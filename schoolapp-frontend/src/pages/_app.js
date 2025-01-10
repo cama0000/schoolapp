@@ -4,25 +4,35 @@ import 'react-toastify/dist/ReactToastify.css';
 import SideBar from '@/components/SideBar';
 import AuthProvider from '@/context/AuthContext';
 import { useRouter } from 'next/router';
-import CourseSideBar from '@/components/CourseSideBar';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  const showSidebar = router.pathname !== '/login' && router.pathname !== '/register' && router.pathname !== '/' && router.pathname !== '/info';
-  const showCourseSideBar = (router.pathname.startsWith('/courses/') || router.pathname.startsWith('/page/')) && router.pathname !== '/courses';
+  const publicRoutes = ['/login', '/register', '/', '/info'];
+  const showSidebar = !publicRoutes.includes(router.pathname);
 
   return (
     <AuthProvider>
-      <div className="flex h-screen">
-        {showSidebar && <SideBar />}
-        <div className={`flex-grow flex ${showSidebar ? 'ml-32' : ''}`}>
-          {showCourseSideBar && <CourseSideBar />}
-          <div className={`flex-grow ${showCourseSideBar ? 'ml-48' : ''}`}>
+      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-50">
+        <div className="flex">
+          {showSidebar && <SideBar />}
+          <main className={`flex-1 ${showSidebar ? 'pl-72' : ''}`}>
             <Component {...pageProps} />
-          </div>
+          </main>
         </div>
+        <ToastContainer 
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          limit={5}
+        />
       </div>
-      <ToastContainer limit={5} />
     </AuthProvider>
   );
 }
