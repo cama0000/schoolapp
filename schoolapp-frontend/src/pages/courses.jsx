@@ -4,10 +4,10 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import { addCourse, deleteCourse, getStudentCourses } from '@/services/client';
 import { useAuth } from '@/context/AuthContext';
 import ProtectedRoutes from '@/components/ProtectedRoutes';
-import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
+import Head from 'next/head';
 
 const Courses = () => {
   const { student } = useAuth();
@@ -80,124 +80,164 @@ const Courses = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center mt-12">
-      <span className="text-6xl font-bold">
-        {student?.firstName}&apos;s Courses
-      </span>
+    <>
+      <div className="flex-1 flex flex-col max-w-7xl mx-auto px-8 py-12">
+        {/* Header */}
+        <div className="mb-16 text-center">
+          <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-900">
+            My Courses
+          </h1>
+        </div>
 
-      <Button style={{ color: 'purple' }}>
-        <AddBoxIcon onClick={handleOpen}/>
-      </Button>
+        {/* Add Course Button */}
+        <div className="flex justify-end mb-8">
+          <Button 
+            onClick={handleOpen}
+            variant="contained"
+            startIcon={<AddBoxIcon />}
+            className="!rounded-full !px-6 !py-2"
+            sx={{
+              bgcolor: '#6B21A8',
+              boxShadow: '0 4px 14px 0 rgba(107, 33, 168, 0.39)',
+              '&:hover': {
+                bgcolor: '#581c87',
+                transform: 'translateY(-1px)',
+                boxShadow: '0 6px 20px 0 rgba(107, 33, 168, 0.39)',
+              }
+            }}
+          >
+            Add Course
+          </Button>
+        </div>
 
-      {groupedCourses.length > 0 ? (
-        <div className="courses-container mt-8">
-          {groupedCourses.map((courseRow, rowIndex) => (
-            <div key={rowIndex} className="course-row flex justify-center">
-              {courseRow.map((course) => (
-                <div key={course.id} className="course-item mx-4">
-                  <Link href={`/courses/${encodeURIComponent(course.id)}`} passHref>
-                  <Box
-                    key={course.id}
-                    className="course-item mx-4 mt-7"
-                    p={6}
-                    boxShadow={3}
-                    borderRadius={4}
-                    bgcolor="background.paper"
-                    height={200}
-                    width={300}
-                    display="flex"
-                    flexDirection="column"
-                    position="relative"
+          {/* Courses Grid */}
+          {courses.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {courses.map((course) => (
+                <Link 
+                  key={course.id} 
+                  href={`/courses/${encodeURIComponent(course.id)}`} 
+                  className="block group"
+                >
+                  <div
+                    className="relative bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-200 border border-purple-100/50 h-[200px] flex flex-col"
                     onMouseEnter={() => handleMouseEnter(course.id)}
                     onMouseLeave={handleMouseLeave}
                   >
-                    
-                  {hoveredCourseId === course.id && (
-                    <DeleteOutlineIcon
-                      style={{
-                        color: 'red',
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        cursor: 'pointer',
-                      }}
-
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleDeleteCourse(course.id)}}
-                    />
-                    
+                    {hoveredCourseId === course.id && (
+                      <DeleteOutlineIcon
+                        className="absolute top-4 right-4 text-red-500 hover:text-red-700 transition-colors cursor-pointer"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDeleteCourse(course.id);
+                        }}
+                      />
                     )}
-                    <div>{course.courseName}</div>
-                    <div className='italic'>{course.subject}</div>
-                  </Box>
-                  </Link>
-                </div>
+                    <div className="flex-grow flex flex-col justify-center">
+                      <h2 className="text-2xl font-bold text-purple-900 mb-2 group-hover:text-purple-700 transition-colors">
+                        {course.courseName}
+                      </h2>
+                      <p className="text-purple-600 italic">
+                        {course.subject}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
               ))}
             </div>
-          ))}
-        </div>
-      ) : (
-        <span className="text-xl mt-8">
-          No courses available. Add some!
-        </span>
-      )}
+          ) : (
+            <div className="text-center py-16 bg-purple-50 rounded-xl border border-purple-100">
+              <p className="text-purple-600 text-lg">
+                No courses available. Add a course to get started!
+              </p>
+            </div>
+          )}
 
-
-
-
-
-      <Dialog
-        open={isOpen}
-        onClose={handleClose}
-        component="form" validate="true" onSubmit={handleSubmit}
-        disableScrollLock={true}
-      >
-        <DialogTitle>Add Course</DialogTitle>
-        <DialogContent>
-
-            <DialogContentText>
-                Create a course.
+        {/* Add Course Dialog */}
+        <Dialog
+          open={isOpen}
+          onClose={handleClose}
+          PaperProps={{
+            sx: {
+              borderRadius: '16px',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            },
+          }}
+        >
+          <DialogTitle>
+            <h2 className="text-2xl font-bold text-purple-900">
+              Add Course
+            </h2>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText className="mb-4 text-purple-600">
+              Add a new course to your dashboard.
             </DialogContentText>
 
             <TextField
-                autoFocus
-                required
-                margin="dense"
-                id="courseName"
-                name="courseName"
-                label="Course Name"
-                type="string"
-                fullWidth
-                variant="standard"
-                onChange={(e) => setCourseName(e.target.value)}
+              autoFocus
+              required
+              margin="dense"
+              id="courseName"
+              name="courseName"
+              label="Course Name"
+              type="string"
+              fullWidth
+              variant="outlined"
+              onChange={(e) => setCourseName(e.target.value)}
+              sx={{
+                mb: 3,
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '12px',
+                },
+              }}
             />
 
             <TextField
-                autoFocus
-                required
-                margin="dense"
-                id="subject"
-                name="subject"
-                label="Subject"
-                type="string"
-                fullWidth
-                variant="standard"
-                onChange={(e) => setSubject(e.target.value)}
+              required
+              margin="dense"
+              id="subject"
+              name="subject"
+              label="Subject"
+              type="string"
+              fullWidth
+              variant="outlined"
+              onChange={(e) => setSubject(e.target.value)}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '12px',
+                },
+              }}
             />
+          </DialogContent>
 
-            <br/>
-            <br/>
-
-        </DialogContent>
-
-        <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" type="submit" onSubmit={handleSubmit} color="primary">Create</Button>
-        </DialogActions>
-
-    </Dialog>
-    </div>
+          <DialogActions sx={{ padding: '16px 24px' }}>
+            <Button 
+              onClick={handleClose}
+              sx={{ 
+                color: 'red',
+                '&:hover': { backgroundColor: 'rgba(255, 0, 0, 0.04)' }
+              }}
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleSubmit}
+              variant="contained"
+              sx={{ 
+                bgcolor: '#6B21A8',
+                borderRadius: '9999px',
+                px: 4,
+                '&:hover': { bgcolor: '#581c87' }
+              }}
+            >
+              Add Course
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    </>
   );
 };
 
