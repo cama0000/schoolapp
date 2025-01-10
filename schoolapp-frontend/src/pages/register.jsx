@@ -196,9 +196,6 @@ const Register = () => {
 
   return (
     <div className='min-h-screen flex flex-col bg-gradient-to-b from-purple-50 via-white to-purple-50'>
-      <Head>
-        <title>Register - Prism</title>
-      </Head>
 
       <Box 
         component="form" 

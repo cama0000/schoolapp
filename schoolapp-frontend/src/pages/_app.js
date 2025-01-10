@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import SideBar from '@/components/SideBar';
 import AuthProvider from '@/context/AuthContext';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -12,6 +13,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <AuthProvider>
+      <Head>
+        <title>Prism</title>
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-purple-50">
         <div className="flex">
           {showSidebar && <SideBar />}
