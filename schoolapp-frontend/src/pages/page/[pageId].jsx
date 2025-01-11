@@ -26,7 +26,7 @@ const NotebookPage = () => {
 
     // check if the student actually has this page
   useEffect(() => {
-    console.log("PAGES STUENT ID: " + page?.studentId);
+    // console.log("PAGES STUENT ID: " + page?.studentId);
     if(page && page?.studentId !== student?.id){
       router.push('/home');
     }

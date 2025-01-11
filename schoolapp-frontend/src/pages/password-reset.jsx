@@ -38,15 +38,11 @@ const PasswordReset = () => {
     setPasswordError('');
     setConfirmError('');
 
-    console.log("INSIDEO F SUBMIT");
-
     const passwordValidationError = validatePassword(newPassword);
     if (passwordValidationError) {
       setPasswordError(passwordValidationError);
       return;
     }
-
-    console.log("INSIDEO F SUBMIT 2");
 
 
     if (newPassword !== confirmPassword) {
@@ -54,14 +50,9 @@ const PasswordReset = () => {
       return;
     }
 
-    console.log("INSIDEO F SUBMIT 3");
-
 
     try {
       setIsSubmitting(true);
-
-      console.log("TOKEN: " + token);
-      console.log("New password: " + newPassword);
 
       const payload = { token, newPassword };
 

@@ -62,7 +62,7 @@ const CoursePage = () => {
   const fetchTasks = async () => {
     try{
       setLoading(true);
-      console.log("TRYING WITH COURSE ID: " + selectedCourse?.id);
+      // console.log("TRYING WITH COURSE ID: " + selectedCourse?.id);
       const data = await getTasksByCourse(selectedCourse?.id);
       setTasks(data);
     }catch (err){

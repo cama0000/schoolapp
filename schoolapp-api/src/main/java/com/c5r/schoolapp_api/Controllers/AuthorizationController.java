@@ -82,9 +82,11 @@ public class AuthorizationController {
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> email) {
 
+        System.out.println("FORGOT PASSWORD EMAIL: " + email);
+
         String decodedEmail = URLDecoder.decode(email.get("email"), StandardCharsets.UTF_8);
 
-//        System.out.println("FORGOT PASSWORD: " + decodedEmail);
+        System.out.println("FORGOT PASSWORD: " + decodedEmail);
         // check if email actually is used on the platform
         if(studentService.findByEmail(decodedEmail).isEmpty()){
             return ResponseEntity.badRequest().build();
