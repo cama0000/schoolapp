@@ -92,23 +92,25 @@ public class AuthorizationController {
             return ResponseEntity.badRequest().build();
         }
 
-//        System.out.println("Creating token");
+        System.out.println("Creating token");
 
         String token = UUID.randomUUID().toString();
 
-//        System.out.println("Token: " + token);
+        System.out.println("Token: " + token);
 
         PasswordResetToken resetToken = new PasswordResetToken(token, decodedEmail, LocalDateTime.now(), LocalDateTime.now().plusHours(1));
         tokenService.save(resetToken);
 
-//        System.out.println("Token saved");
+        System.out.println("Token saved");
 
         String resetLink = "http://schoolapp-zeta.vercel.app/password-reset" + "?token=" + token;
 //        String resetLink = "http://localhost:3000/password-reset" + "?token=" + token;
 
+        System.out.println("RESET LINK: " + resetLink);
+
         emailService.sendPasswordResetEmail(decodedEmail, resetLink);
 
-//        System.out.println("Email sent");
+        System.out.println("Email sent");
 
 
         return ResponseEntity.ok("Password reset link sent.");
