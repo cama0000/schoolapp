@@ -33,7 +33,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")  // Apply to all endpoints
-                .allowedOrigins("https://schoolapp-zeta.vercel.app")  // Allowed client origins
+                .allowedOrigins("https://schoolapp-zeta.vercel.app", "http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // HTTP methods
                 .allowedHeaders("*")  // Allow all headers
                 .exposedHeaders("Authorization")  // Expose Authorization header
