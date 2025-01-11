@@ -268,3 +268,25 @@ export const getPagesBySearch = async (search) => {
         throw err;
     }
 };
+
+export const forgotPassword = async (email) => {
+    try{
+        return await axios.post(
+            `${process.env.NEXT_PUBLIC_HOST_NAME}authorization/forgot-password`, {email}
+        )
+    }catch(err){
+        console.log("FORGOT PASSWORD CLIENT ERROR: " + err)
+        throw err;
+    }
+}
+
+export const resetPassword = async (request) => {
+    try{
+        return await axios.post(
+            `${process.env.NEXT_PUBLIC_HOST_NAME}authorization/reset-password`, request
+        )
+    }catch(err){
+        console.log("RESET PASSWORD CLIENT ERROR: " + err)
+        throw err;
+    }
+}

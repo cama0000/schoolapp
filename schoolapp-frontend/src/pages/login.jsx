@@ -18,7 +18,7 @@ const Login = () => {
     const router = useRouter();
   
     useEffect(() => {
-      console.log("STUDENT: " + student);
+      // console.log("STUDENT: " + student);
       if (student) {
         router.push("/home");
       }
@@ -123,32 +123,40 @@ const Login = () => {
           }}
         />
 
-        <TextField
-          type="password" 
-          label="Password"
-          id="password"
-          name="password"
-          fullWidth
-          error={passwordError !== ""}
-          helperText={passwordError !== "" ? passwordError : ""}
-          onChange={handleChangePassword}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: 'rgba(107, 33, 168, 0.2)',
+        <div className="w-full">
+          <TextField
+            type="password" 
+            label="Password"
+            id="password"
+            name="password"
+            fullWidth
+            error={passwordError !== ""}
+            helperText={passwordError !== "" ? passwordError : ""}
+            onChange={handleChangePassword}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'rgba(107, 33, 168, 0.2)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'rgba(107, 33, 168, 0.3)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'rgba(107, 33, 168, 0.5)',
+                },
               },
-              '&:hover fieldset': {
-                borderColor: 'rgba(107, 33, 168, 0.3)',
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: 'rgba(107, 33, 168, 0.8)',
               },
-              '&.Mui-focused fieldset': {
-                borderColor: 'rgba(107, 33, 168, 0.5)',
-              },
-            },
-            '& .MuiInputLabel-root.Mui-focused': {
-              color: 'rgba(107, 33, 168, 0.8)',
-            },
-          }}
-        />
+            }}
+          />
+          <Link 
+            href="/password-reset-request" 
+            className="block text-right mt-2 text-sm text-purple-600 hover:text-purple-800 transition-colors"
+          >
+            Forgot Password?
+          </Link>
+        </div>
 
         <Button 
           variant='contained' 

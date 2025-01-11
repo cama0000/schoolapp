@@ -7,7 +7,6 @@ import { Box, Button } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { toast } from 'react-toastify';
-import Link from 'next/link';
 import { Router, useRouter } from 'next/router';
 import ArticleIcon from '@mui/icons-material/Article';
 
@@ -45,7 +44,6 @@ const Home = () => {
     try {
       const pageData = await getPagesByStudent(student?.id);
       
-      // Sort pages by update time and take only the 6 most recent
       const sortedPages = pageData.sort((a, b) => 
         dayjs(b.timeUpdated).valueOf() - dayjs(a.timeUpdated).valueOf()
       ).slice(0, 6);
@@ -94,7 +92,6 @@ const Home = () => {
 
   return (
     <div className="flex-1 flex flex-col max-w-7xl mx-auto px-8 py-12">
-      {/* Welcome Section */}
       <div className="mb-16 text-center">
         <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-900">
           Welcome, {student?.firstName}!
@@ -104,7 +101,6 @@ const Home = () => {
         </p>
       </div>
 
-      {/* Tasks Section */}
       <div className="mb-16">
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -191,7 +187,7 @@ const Home = () => {
           ) : (
             <div className="text-center py-16 bg-purple-50 rounded-xl border border-purple-100">
               <p className="text-purple-600 text-lg">
-                No upcoming deadlines. You're all caught up!
+                {"No upcoming deadlines. You're all caught up!"}
               </p>
             </div>
           )}

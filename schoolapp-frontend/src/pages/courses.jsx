@@ -7,7 +7,6 @@ import ProtectedRoutes from '@/components/ProtectedRoutes';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
-import Head from 'next/head';
 
 const Courses = () => {
   const { student } = useAuth();
@@ -82,14 +81,12 @@ const Courses = () => {
   return (
     <>
       <div className="flex-1 flex flex-col max-w-7xl mx-auto px-8 py-12">
-        {/* Header */}
         <div className="mb-16 text-center">
           <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-900">
             My Courses
           </h1>
         </div>
 
-        {/* Add Course Button */}
         <div className="flex justify-end mb-8">
           <Button 
             onClick={handleOpen}
@@ -110,7 +107,6 @@ const Courses = () => {
           </Button>
         </div>
 
-          {/* Courses Grid */}
           {courses.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {courses.map((course) => (

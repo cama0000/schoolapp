@@ -8,7 +8,7 @@ import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  const publicRoutes = ['/login', '/register', '/', '/info'];
+  const publicRoutes = ['/login', '/register', '/', '/info', '/password-reset-request', '/password-reset'];
   const showSidebar = !publicRoutes.includes(router.pathname);
 
   return (
