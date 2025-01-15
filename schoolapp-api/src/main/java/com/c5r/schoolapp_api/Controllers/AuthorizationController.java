@@ -1,15 +1,20 @@
 package com.c5r.schoolapp_api.Controllers;
 
 import com.c5r.schoolapp_api.Config.*;
+import com.c5r.schoolapp_api.Course.CourseService;
 import com.c5r.schoolapp_api.Email.EmailService;
+import com.c5r.schoolapp_api.Page.PageService;
 import com.c5r.schoolapp_api.PasswordResetToken.PasswordResetToken;
 import com.c5r.schoolapp_api.PasswordResetToken.TokenService;
 import com.c5r.schoolapp_api.Student.Student;
 import com.c5r.schoolapp_api.Student.StudentService;
+import com.c5r.schoolapp_api.Task.TaskService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +39,12 @@ public class AuthorizationController {
     EmailService emailService;
 
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private PageService pageService;
+    @Autowired
+    TaskService taskService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
@@ -82,36 +93,23 @@ public class AuthorizationController {
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> email) {
 
-        System.out.println("FORGOT PASSWORD EMAIL: " + email);
 
         String decodedEmail = URLDecoder.decode(email.get("email"), StandardCharsets.UTF_8);
 
-        System.out.println("FORGOT PASSWORD: " + decodedEmail);
         // check if email actually is used on the platform
         if(studentService.findByEmail(decodedEmail).isEmpty()){
             return ResponseEntity.badRequest().build();
         }
 
-        System.out.println("Creating token");
-
         String token = UUID.randomUUID().toString();
-
-        System.out.println("Token: " + token);
 
         PasswordResetToken resetToken = new PasswordResetToken(token, decodedEmail, LocalDateTime.now(), LocalDateTime.now().plusHours(1));
         tokenService.save(resetToken);
 
-        System.out.println("Token saved");
-
         String resetLink = "http://schoolapp-zeta.vercel.app/password-reset" + "?token=" + token;
 //        String resetLink = "http://localhost:3000/password-reset" + "?token=" + token;
 
-        System.out.println("RESET LINK: " + resetLink);
-
         emailService.sendPasswordResetEmail(decodedEmail, resetLink);
-
-        System.out.println("Email sent");
-
 
         return ResponseEntity.ok("Password reset link sent.");
     }
@@ -178,6 +176,28 @@ public class AuthorizationController {
         tokenService.save(token);
 
         return ResponseEntity.ok("Password has successfully been reset");
+    }
+
+    @Transactional
+    @DeleteMapping("/delete/{studentId}")
+    public ResponseEntity<String> deleteAccount(@PathVariable int studentId) {
+        try {
+            Student student = studentService.findById(studentId);
+
+            if(student == null){
+                return ResponseEntity.badRequest().build();
+            }
+
+            courseService.deleteByStudentId(studentId);
+            pageService.deleteByStudentId(studentId);
+            taskService.deleteByStudentId(studentId);
+            studentService.delete(student);
+
+            return ResponseEntity.ok("Account deleted successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("An error occurred while deleting the account.");
+        }
     }
 
 

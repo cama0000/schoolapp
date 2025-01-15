@@ -28,4 +28,9 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query(value = "DELETE FROM tasks t WHERE t.course_id = ?1", nativeQuery = true)
     public void deleteTasksByCourse(Long id);
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM tasks t WHERE t.student_id = ?1", nativeQuery = true)
+    public void deleteByStudentId(int studentId);
+
 }

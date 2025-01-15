@@ -46,6 +46,11 @@ public class PageService {
     public Set<Page> findPagesBySearch(Long id, String search){
         return pageRepository.findBySearch(id, search);
     }
+
+    @Transactional
+    public void deleteByStudentId(int id) {
+        pageRepository.deleteByStudentId(id);
+    }
 }
 
 
