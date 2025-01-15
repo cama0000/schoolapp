@@ -290,3 +290,14 @@ export const resetPassword = async (request) => {
         throw err;
     }
 }
+
+export const deleteAccount = async (studentId) => {
+    try{
+        return await axios.delete(
+            `${process.env.NEXT_PUBLIC_HOST_NAME}authorization/delete/${studentId}`,
+        )
+    }catch(err){
+        console.log("DELETE ACCOUNT CLIENT ERROR: " + err)
+        throw err;
+    }
+}

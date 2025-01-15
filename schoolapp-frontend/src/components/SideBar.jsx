@@ -35,7 +35,7 @@ const SideBar = () => {
   };
 
   const handleSearch = async () =>{
-    console.log("SEARCH QUERY: " + title);
+    // console.log("SEARCH QUERY: " + title);
 
     if(title !== ''){
       const search = { title, studentId: student?.id }

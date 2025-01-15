@@ -16,5 +16,11 @@ export const sideBarLinks = [
         imgURL: "/assets/images/search.png",
         href: "/home",
         label: "Search"
+      },
+      {
+        id: 3,
+        imgURL: "/assets/images/settings.png",
+        href: "/settings",
+        label: "Settings"
       }
   ];

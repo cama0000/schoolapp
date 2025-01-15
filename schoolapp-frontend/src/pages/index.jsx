@@ -23,7 +23,7 @@ const index = () => {
             variant="contained" 
             className="!px-8 !py-3 !text-lg !rounded-full hover:!scale-105 transition-transform"
             style={{ 
-              backgroundColor: '#6B21A8', // purple-800
+              backgroundColor: '#6B21A8',
               color: 'white',
               boxShadow: '0 4px 14px 0 rgba(107, 33, 168, 0.39)'
             }}

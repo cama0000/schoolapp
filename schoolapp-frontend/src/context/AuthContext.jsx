@@ -5,7 +5,7 @@ import {
     useState
 } from "react";
 
-import { login as performLogin, getStudentFromUsername as getStudent, getCourse, getPage } from "../services/client.js";
+import { login as performLogin, getStudentFromUsername as getStudent, getCourse, getPage, deleteAccount } from "../services/client.js";
 import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext({});
@@ -97,6 +97,17 @@ const AuthProvider = ({ children }) => {
           }
     }
 
+    const authDeleteAccount = async () => {
+        try {
+            await deleteAccount(student?.id);
+
+            setStudent(null);
+            localStorage.removeItem('access_token');
+        } catch (error) {
+            console.error("Error deleting account:", error);
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -107,6 +118,7 @@ const AuthProvider = ({ children }) => {
                 setPageFromId,
                 login,
                 logout,
+                authDeleteAccount,
                 isStudentAuthenticated,
                 setStudentFromToken,
             }}
