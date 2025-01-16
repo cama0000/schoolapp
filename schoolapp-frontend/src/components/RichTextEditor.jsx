@@ -1,4 +1,4 @@
-import { Editor, EditorState, RichUtils, getDefaultKeyBinding, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor, EditorState, RichUtils, getDefaultKeyBinding, convertToRaw, convertFromRaw, ContentState } from 'draft-js';
 import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
 import './RichText.css';
 import { loadPageContent, savePageContent } from '@/services/client';
@@ -52,18 +52,26 @@ const RichTextEditor = forwardRef((props, ref) => {
         );
     };
 
-    const save = async () => {
-        const contentState = editorState.getCurrentContent();
+    const save = async (rawContent) => {
+        if(rawContent == ""){
+            const contentState = editorState.getCurrentContent();
 
-        console.log("TJE CONTENT STATE: " + contentState);
-        const rawContent = JSON.stringify(convertToRaw(contentState));
+            // console.log("SAVED. THE CONTENT STATE: " + contentState);
+            rawContent = JSON.stringify(convertToRaw(contentState));
+        }
+        else{
+            const contentState = ContentState.createFromText(rawContent);
+            const editorStateFromText = EditorState.createWithContent(contentState);
+            rawContent = JSON.stringify(convertToRaw(editorStateFromText.getCurrentContent()));
+        }
+
         const pageId = props.pageId;
 
-        console.log("THS IS THE PAGEEEE: " + pageId);
+        // console.log("SAVED: THE RAW CONTENT: " + rawContent);
 
         try {
             const response = await savePageContent(pageId, rawContent);
-            console.log('Content saved successfully:', response);
+            // console.log('Content saved successfully:', response);
         } catch (err) {
             console.error('Failed to save content:', err);
         }
@@ -73,17 +81,14 @@ const RichTextEditor = forwardRef((props, ref) => {
       try{
         const pageId = props.pageId;
 
-        console.log("THE PAGE FOR REAL IS : " + pageId);
         const response = await loadPageContent(pageId);
-
-        console.log("RESPONE IS : " + response.content)
 
         if(response) {
           const contentState = convertFromRaw(response);
           setEditorState(EditorState.createWithContent(contentState));
         }
 
-        console.log('Content loaded successfully:', response);
+        // console.log('LOAD: Content loaded successfully:', response);
       } catch (err) {
         console.error('Failed to load content:', err);
       }  

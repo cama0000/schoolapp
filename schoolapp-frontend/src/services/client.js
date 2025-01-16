@@ -202,15 +202,13 @@ export const getPage = async (pageId) => {
 
 export const savePageContent = async (pageId, rawContent) => {
     try {
-        console.log("THE REALL ONE ID IS : " + pageId);
-        console.log("THE RAW CONTENT IS : " + rawContent);
         const response = await axios.put(`${process.env.NEXT_PUBLIC_HOST_NAME}page/savePageContent/${pageId}`, 
             { content: rawContent },
             getAuthConfig());
 
         return response.data;
     } catch (err) {
-        console.log("SAVEPAGECONTENT CLIENT ERROR: " + err);
+        console.log("SAVE PAGE CONTENT CLIENT ERROR: " + err);
         throw err;
     }
 };
@@ -222,7 +220,7 @@ export const loadPageContent = async (pageId) => {
 
         return response.data;
     } catch (err) {
-        console.log("LOADPAGECONTENT CLIENT ERROR: " + err);
+        console.log("LOAD PAGE CONTENT CLIENT ERROR: " + err);
         throw err;
     }
 };
