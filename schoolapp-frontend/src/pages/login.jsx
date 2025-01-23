@@ -5,6 +5,9 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import Link from 'next/link';
+import InputAdornment from '@mui/material/InputAdornment';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -13,6 +16,7 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState("");
     const [loading, setLoading] = useState(false);
     const [isError, setIsError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
   
     const { login, student } = useAuth();
     const router = useRouter();
@@ -125,7 +129,7 @@ const Login = () => {
 
         <div className="w-full">
           <TextField
-            type="password" 
+            type={showPassword ? "text" : "password"}
             label="Password"
             id="password"
             name="password"
@@ -133,6 +137,25 @@ const Login = () => {
             error={passwordError !== ""}
             helperText={passwordError !== "" ? passwordError : ""}
             onChange={handleChangePassword}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button 
+                    onClick={() => setShowPassword(!showPassword)} 
+                    size="small" // Makes the button smaller
+                    sx={{ 
+                      textTransform: 'none',
+                      color: '#6B21A8',
+                      minWidth: '30px', // Adjust the width
+                      padding: '4px', // Adjust padding for a smaller size
+                    }}
+                  >
+                    {showPassword ? <RemoveRedEyeIcon fontSize="small" /> : <VisibilityOffIcon fontSize="small" />}
+                  </Button>
+                </InputAdornment>
+              ),
+            }}
+            
             sx={{
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
