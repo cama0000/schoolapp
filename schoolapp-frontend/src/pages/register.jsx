@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import InputAdornment from '@mui/material/InputAdornment';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Register = () => {
     const [firstName, setFirstName] = useState("");
@@ -15,7 +18,8 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
   
     const [isPasswordEntered, setIsPasswordEntered] = useState(false);
-    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
     const [nameError, setNameError] = useState("");
     const [lastNameError, setLastNameError] = useState("");
@@ -110,6 +114,10 @@ const Register = () => {
       else{
           setIsPasswordEntered(true);
       }
+
+      // checks password validity on the fly
+      const passwordValidationError = validatePassword(val);
+      setPasswordError(passwordValidationError);
   
       // recheck passwords when going back to change original password
       if(confirmPassword !== ""){
@@ -133,43 +141,52 @@ const Register = () => {
           setConfirmPasswordError("");
       }
   };
+
+  const validatePassword = (password) => {
+    if (password.length < 8) {
+      return 'Password must be at least 8 characters long.';
+    }
+    if (!/[A-Z]/.test(password)) {
+      return 'Password must contain at least one uppercase letter.';
+    }
+    if (!/[a-z]/.test(password)) {
+      return 'Password must contain at least one lowercase letter.';
+    }
+    if (!/[0-9]/.test(password)) {
+      return 'Password must contain at least one number.';
+    }
+    return '';
+  };
   
       const handleSubmit = (event) =>{
           event.preventDefault()
-          // validate all fields
+
+          // password error checking happens in handleChangePassword, not here
+          if (passwordError) {
+            return;
+          }
   
           if(firstName === '' || lastName === '' || email === '' || username === '' || password === '' || confirmPassword === ''){
-              alert("Please fill out all blank fields.");
               return;
           }
   
           if(nameError !== "") {
-              alert(nameError);
               return;
           }
   
           if(lastNameError !== "") {
-              alert(lastNameError);
               return;
           }
   
           if(emailError !== "") {
-              alert(emailError);
               return;
           }
   
           if(usernameError !== "") {
-              alert(usernameError);
-              return;
-          }
-  
-          if(passwordError !== "") {
-              alert(passwordError);
               return;
           }
   
           if(confirmPasswordError !== "") {
-              alert(confirmPasswordError);
               return;
           }
   
@@ -281,7 +298,7 @@ const Register = () => {
         />
 
         <TextField
-          type="password"
+          type={showPassword ? "text" : "password"}
           label="Password"
           id="password"
           name="password"
@@ -289,11 +306,27 @@ const Register = () => {
           error={passwordError !== ""}
           helperText={passwordError !== "" ? passwordError : ""}
           onChange={handleChangePassword}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Button 
+                  onClick={() => setShowPassword(!showPassword)}
+                  sx={{ 
+                    textTransform: 'none',
+                    color: '#6B21A8',
+                  }}
+                >
+                {showPassword ? <RemoveRedEyeIcon fontSize="small" /> : <VisibilityOffIcon fontSize="small" />}
+
+                </Button>
+              </InputAdornment>
+            ),
+          }}
           sx={textFieldStyles}
         />
 
         <TextField
-          type="password"
+          type={showConfirmPassword ? "text" : "password"}
           label="Confirm Password"
           id="confirmPassword"
           name="confirmPassword"
@@ -301,6 +334,22 @@ const Register = () => {
           error={confirmPasswordError !== ""}
           helperText={confirmPasswordError !== "" ? confirmPasswordError : ""}
           onChange={handleChangeConfirmPassword}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Button 
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  sx={{ 
+                    textTransform: 'none',
+                    color: '#6B21A8',
+                  }}
+                >
+                {showConfirmPassword ? <RemoveRedEyeIcon fontSize="small" /> : <VisibilityOffIcon fontSize="small" />}
+
+                </Button>
+              </InputAdornment>
+            ),
+          }}
           sx={textFieldStyles}
         />
 
@@ -339,7 +388,8 @@ const Register = () => {
   );
 }
 
-// Common styles for text fields
+
+
 const textFieldStyles = {
   '& .MuiOutlinedInput-root': {
     '& fieldset': {

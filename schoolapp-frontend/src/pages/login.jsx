@@ -142,12 +142,12 @@ const Login = () => {
                 <InputAdornment position="end">
                   <Button 
                     onClick={() => setShowPassword(!showPassword)} 
-                    size="small" // Makes the button smaller
+                    size="small"
                     sx={{ 
                       textTransform: 'none',
                       color: '#6B21A8',
-                      minWidth: '30px', // Adjust the width
-                      padding: '4px', // Adjust padding for a smaller size
+                      minWidth: '30px',
+                      padding: '4px',
                     }}
                   >
                     {showPassword ? <RemoveRedEyeIcon fontSize="small" /> : <VisibilityOffIcon fontSize="small" />}
